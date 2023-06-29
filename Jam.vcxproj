@@ -89,6 +89,7 @@
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="izumi.h" />
     <ClInclude Include="SugaMasaei.h" />
     <ClInclude Include="takekawaryuto.h" />
   </ItemGroup>
