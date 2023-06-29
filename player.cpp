@@ -6,6 +6,8 @@
 
 En player;//プレイヤー
 int shotse;//ショットSE
+double PI = 3.14;
+
 //プレイヤーの初期化
 void initPlayer()
 {
@@ -55,7 +57,7 @@ void updatePlayer()
 		player.y = 600;
 	}
 
-	//弾を撃つ処理
+	//弾を撃つ処理(通常)
 	if (CheckHitKey(KEY_INPUT_SPACE) == 1 &&
 		player.cooltime <= 0)
 	{
@@ -69,7 +71,7 @@ void updatePlayer()
 				shot[i].y = player.y;
 				shot[i].enable = true;
 				player.cooltime = 10;//連射速度　小さいほど連射できる
-				shot[i].rad = 0.0 * PI / 180;
+				shot[i].rad = 90.0 * PI / 180;
 				PlaySoundMem(shotse, DX_PLAYTYPE_BACK);
 				break;
 			}
@@ -78,6 +80,31 @@ void updatePlayer()
 	//銃を冷やす処理
 	if (player.cooltime > 0) {
 		player.cooltime--;
+	}
+
+	//ボム発射
+	if (CheckHitKey(KEY_INPUT_B) == 1 &&
+		player.cooltime_B <= 0)
+	{
+		//弾が無効なときのみ初期値をセットし有効にする
+		for (int i = 0; i < ShotNum; i++)
+		{
+			//撃てる弾をみつける
+			if (shot[i].enable == false) {
+				//弾を撃つ
+				shot[i].x = player.x;
+				shot[i].y = player.y;
+				shot[i].enable = true;
+				player.cooltime_B = 60;//連射速度　小さいほど連射できる
+				shot[i].rad = 270.0 * PI / 180;
+				PlaySoundMem(shotse, DX_PLAYTYPE_BACK);
+				break;
+			}
+		}
+	}
+	//銃を冷やす処理(ボム)
+	if (player.cooltime_B > 0) {
+		player.cooltime_B--;
 	}
 }
 

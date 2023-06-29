@@ -34,7 +34,7 @@ void updateShot()
 	}
 }
 //’e‚Ì•`‰æ
-void drawShot()
+void drawShotNormal()
 {
 	for (int i = 0; i < ShotNum; i++) {
 		if (shot[i].enable == true)
