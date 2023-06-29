@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="izumi.h" />
+    <ClInclude Include="MatuzawaAoi.h" />
     <ClInclude Include="SugaMasaei.h" />
     <ClInclude Include="takekawaryuto.h" />
   </ItemGroup>

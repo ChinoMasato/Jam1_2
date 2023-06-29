@@ -21,5 +21,8 @@
     <ClInclude Include="izumi.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="MatuzawaAoi.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
