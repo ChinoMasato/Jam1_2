@@ -4,6 +4,19 @@
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="takekawaryuto.h" />
+    <Filter Include="header">
+      <UniqueIdentifier>{68f875ff-786c-4f4e-b19d-7ad054aeead0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cpp">
+      <UniqueIdentifier>{35066d28-1af5-48ed-9813-abfd7d75b622}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="takekawaryuto.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="SugaMasaei.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
