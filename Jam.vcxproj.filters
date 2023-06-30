@@ -12,9 +12,21 @@
     <ClInclude Include="_system.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="shot.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="_maine.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="shot.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
   </ItemGroup>
