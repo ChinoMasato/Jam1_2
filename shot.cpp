@@ -33,16 +33,24 @@ void updateShot()
 		}
 	}
 }
-//’e‚Ì•`‰æ
+//’e‚Ì•`‰æ(’Êí)
 void drawShotNormal()
 {
 	for (int i = 0; i < ShotNum; i++) {
 		if (shot[i].enable == true)
 		{
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 127);//”¼“§–¾
-			DrawCircle(shot[i].x, shot[i].y, shot[i].r, shot[i].color, shot[i].fill);	
-			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);//•s“§–¾
-			DrawCircle(shot[i].x, shot[i].y, shot[i].r * 0.5, shot[i].color, shot[i].fill);
+			//’e(’Êí)‚Ì‰æ‘œ
+
+		}
+	}
+}
+//’e‚Ì•`‰æ(ƒ{ƒ€)
+void drawShotBomb()
+{
+	for (int i = 0; i < ShotNum; i++) {
+		if (shot[i].enable == true)
+		{
+			//’e(ƒ{ƒ€)‚Ì‰æ‘œ
 
 		}
 	}

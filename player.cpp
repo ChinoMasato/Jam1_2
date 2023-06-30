@@ -73,6 +73,7 @@ void updatePlayer()
 				player.cooltime = 10;//連射速度　小さいほど連射できる
 				shot[i].rad = 90.0 * PI / 180;
 				PlaySoundMem(shotse, DX_PLAYTYPE_BACK);
+				drawShotNormal();
 				break;
 			}
 		}
@@ -98,6 +99,7 @@ void updatePlayer()
 				player.cooltime_B = 60;//連射速度　小さいほど連射できる
 				shot[i].rad = 270.0 * PI / 180;
 				PlaySoundMem(shotse, DX_PLAYTYPE_BACK);
+				drawShotBomb();
 				break;
 			}
 		}
@@ -105,6 +107,11 @@ void updatePlayer()
 	//銃を冷やす処理(ボム)
 	if (player.cooltime_B > 0) {
 		player.cooltime_B--;
+	}
+
+	if (shot[i].enable == true)
+	{
+
 	}
 }
 
