@@ -1,7 +1,7 @@
 #pragma once
-#include "en.h"
+#include "_system.h"
 
-extern En player;//プレイヤー
+extern Object player;//プレイヤー
 
 void initPlayer();//プレイヤーの初期化
 void updatePlayer();//プレイヤーの更新

@@ -1,10 +1,10 @@
 //プレイヤーを操作する関数を書いたファイル
-#include "en.h"
+#include "_system.h"
 #include "DxLib.h"
 #include "shot.h"
 #include "player.h"
 
-En player;//プレイヤー
+Object player;//プレイヤー
 int shotse;//ショットSE
 double PI = 3.14;
 

@@ -1,9 +1,9 @@
 //プレイヤーの弾を操作する関数を書いたファイル
-#include "en.h"
+#include "_system.h"
 #include "DxLib.h"
 #include "shot.h"
 
-En shot[ShotNum];//弾
+Object shot[ShotNum];//弾
 //弾の初期化
 void initShot()
 {
