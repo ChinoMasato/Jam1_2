@@ -7,6 +7,8 @@
 Object player;//プレイヤー
 int shotse;//ショットSE
 double PI = 3.14;
+int bombtime = 60;//30秒を想定
+int pushtime = 60;//60秒を想定
 
 //プレイヤーの初期化
 void initPlayer()
@@ -72,8 +74,9 @@ void updatePlayer()
 				shot[i].enable = true;
 				player.cooltime = 10;//連射速度　小さいほど連射できる
 				shot[i].rad = 90.0 * PI / 180;
+				shot[i].type = NORMAL;
 				PlaySoundMem(shotse, DX_PLAYTYPE_BACK);
-				drawShotNormal();
+				drawShot();
 				break;
 			}
 		}
@@ -98,8 +101,9 @@ void updatePlayer()
 				shot[i].enable = true;
 				player.cooltime_B = 60;//連射速度　小さいほど連射できる
 				shot[i].rad = 270.0 * PI / 180;
+				shot[i].type = BOMB;
 				PlaySoundMem(shotse, DX_PLAYTYPE_BACK);
-				drawShotBomb();
+				drawShot();
 				break;
 			}
 		}
@@ -108,15 +112,42 @@ void updatePlayer()
 	if (player.cooltime_B > 0) {
 		player.cooltime_B--;
 	}
-
-	if (shot[i].enable == true)
-	{
-
-	}
 }
 
 //プレイヤーの描画
 void drawPlayer()
 {
-	DrawCircle(player.x, player.y, player.r, player.color, player.fill);
+	if (player.muteki_time <= 0)
+	{
+		if (CheckHitKey(KEY_INPUT_UP) == 1 && CheckHitKey(KEY_INPUT_DOWN) == 0)
+		{
+			DrawGraph(player.x - 29, player.y - 24, playerUimg, true);
+		}
+		if (CheckHitKey(KEY_INPUT_DOWN) == 1 && CheckHitKey(KEY_INPUT_UP) == 0)
+		{
+			DrawGraph(player.x - 29, player.y - 24, playerDimg, true);
+		}
+		if (CheckHitKey(KEY_INPUT_DOWN) == 0 && CheckHitKey(KEY_INPUT_UP) == 0)
+		{
+			DrawGraph(player.x - 29, player.y - 24, playerimg, true);
+		}
+	}
+	if (player.muteki_time > 0 && count % 10 == 0)
+	{
+		for (i = 0; i < 5; i++)
+		{
+			if (CheckHitKey(KEY_INPUT_UP) == 1 && CheckHitKey(KEY_INPUT_DOWN) == 0)
+			{
+				DrawGraph(player.x - 29, player.y - 24, playerUimg, true);
+			}
+			if (CheckHitKey(KEY_INPUT_DOWN) == 1 && CheckHitKey(KEY_INPUT_UP) == 0)
+			{
+				DrawGraph(player.x - 29, player.y - 24, playerDimg, true);
+			}
+			if (CheckHitKey(KEY_INPUT_DOWN) == 0 && CheckHitKey(KEY_INPUT_UP) == 0)
+			{
+				DrawGraph(player.x - 29, player.y - 24, playerimg, true);
+			}
+		}
+	}
 }

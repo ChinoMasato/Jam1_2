@@ -30,6 +30,7 @@ struct Object
 	double vvy;//縦の移動量の増量
 	bool enable;//有効フラグ（生きてるか、死んでるか）
 	int cooltime;//連射できないようにするタイマー
+	int cooltime_B;//連射できないようにするタイマー(ボムver)
 	double rad = 0;
 	int hp;
 	int muteki_time = 0;

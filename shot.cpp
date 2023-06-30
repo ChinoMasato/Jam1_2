@@ -2,6 +2,7 @@
 #include "_system.h"
 #include "DxLib.h"
 #include "shot.h"
+#include <math.h>
 
 Object shot[ShotNum];//’e
 //’e‚Ì‰Šú‰»
@@ -33,25 +34,24 @@ void updateShot()
 		}
 	}
 }
-//’e‚Ì•`‰æ(’Êí)
-void drawShotNormal()
+//’e‚Ì•`‰æ
+void drawShot()
 {
 	for (int i = 0; i < ShotNum; i++) {
 		if (shot[i].enable == true)
 		{
-			//’e(’Êí)‚Ì‰æ‘œ
-
-		}
-	}
-}
-//’e‚Ì•`‰æ(ƒ{ƒ€)
-void drawShotBomb()
-{
-	for (int i = 0; i < ShotNum; i++) {
-		if (shot[i].enable == true)
-		{
-			//’e(ƒ{ƒ€)‚Ì‰æ‘œ
-
+			if (shot[i].type == NORMAL)
+			{
+				//©‹@’e(’Êí)‚Ì‰æ‘œ
+			}
+			if (shot[i].type == BOMB)
+			{
+				//©‹@’e(’Êí)‚Ì‰æ‘œ
+			}
+			if (shot[i].type == BEAM)
+			{
+				//©‹@’e(’Êí)‚Ì‰æ‘œ
+			}
 		}
 	}
 }
