@@ -88,13 +88,6 @@
   <ItemGroup>
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="izumi.h" />
-    <ClInclude Include="MatuzawaAoi.h" />
-    <ClInclude Include="SugaMasaei.h" />
-    <ClInclude Include="takekawaryuto.h" />
-    <ClInclude Include="takumi.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
