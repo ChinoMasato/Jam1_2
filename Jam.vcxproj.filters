@@ -14,7 +14,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="test.h">
+    <ClInclude Include="_system.h">
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>
