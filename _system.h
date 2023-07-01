@@ -1,5 +1,10 @@
 #pragma once
 //struct と enum の記入場所
+
+extern int playerimg;//プレイヤー画像
+extern int enemyimg;//敵画像
+extern int shot_normalimg;//弾画像
+
 enum EnemyType
 {
 	ENEMY1,//敵タイプ１

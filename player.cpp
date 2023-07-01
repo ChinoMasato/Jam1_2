@@ -13,6 +13,8 @@ int pushtime = 60;//60秒を想定
 //プレイヤーの初期化
 void initPlayer()
 {
+	//プレイヤー画像の読み込み
+	playerimg = LoadGraph("player_1.png");
 	shotse = LoadSoundMem("maou_se_battle16.mp3");
 	player.x = 400;
 	player.y = 550;
@@ -119,35 +121,13 @@ void drawPlayer()
 {
 	if (player.muteki_time <= 0)
 	{
-		if (CheckHitKey(KEY_INPUT_UP) == 1 && CheckHitKey(KEY_INPUT_DOWN) == 0)
-		{
-			DrawGraph(player.x - 29, player.y - 24, playerUimg, true);
-		}
-		if (CheckHitKey(KEY_INPUT_DOWN) == 1 && CheckHitKey(KEY_INPUT_UP) == 0)
-		{
-			DrawGraph(player.x - 29, player.y - 24, playerDimg, true);
-		}
-		if (CheckHitKey(KEY_INPUT_DOWN) == 0 && CheckHitKey(KEY_INPUT_UP) == 0)
-		{
-			DrawGraph(player.x - 29, player.y - 24, playerimg, true);
-		}
+		DrawGraph(player.x - 29, player.y - 24, playerimg, true);
 	}
 	if (player.muteki_time > 0 && count % 10 == 0)
 	{
-		for (i = 0; i < 5; i++)
+		for (int i = 0; i < 5; i++)
 		{
-			if (CheckHitKey(KEY_INPUT_UP) == 1 && CheckHitKey(KEY_INPUT_DOWN) == 0)
-			{
-				DrawGraph(player.x - 29, player.y - 24, playerUimg, true);
-			}
-			if (CheckHitKey(KEY_INPUT_DOWN) == 1 && CheckHitKey(KEY_INPUT_UP) == 0)
-			{
-				DrawGraph(player.x - 29, player.y - 24, playerDimg, true);
-			}
-			if (CheckHitKey(KEY_INPUT_DOWN) == 0 && CheckHitKey(KEY_INPUT_UP) == 0)
-			{
-				DrawGraph(player.x - 29, player.y - 24, playerimg, true);
-			}
+			DrawGraph(player.x - 29, player.y - 24, playerimg, true);
 		}
 	}
 }

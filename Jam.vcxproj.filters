@@ -29,5 +29,8 @@
     <ClCompile Include="shot.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
+    <ClCompile Include="_system.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
