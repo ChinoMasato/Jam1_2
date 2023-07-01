@@ -7,9 +7,9 @@ extern int shot_normalimg;//弾画像
 
 enum EnemyType
 {
-	ENEMY1,//敵タイプ１
-	ENEMY2,//敵タイプ２
-	ENEMY3//敵タイプ3
+	ENEMY1,//真っ直ぐ動いて、真っ直ぐ弾を撃つ
+	ENEMY2,//隊列で出現して、波線を描きながら突進してくる
+	ENEMY3//不規則に動いて、ホーミング弾を撃つ
 };
 
 enum ShotType
@@ -22,8 +22,8 @@ enum ShotType
 //円の構造体
 struct Object
 {
-	EnemyType type;//敵の種類
-	ShotType type;
+	EnemyType enemytype;//敵の種類
+	ShotType shottype;
 	double x;//X座標
 	double y;//Y座標
 	double r;//半径
@@ -42,6 +42,8 @@ struct Object
 	int aim_time = 0;//ホーミングする時間(ずっとホーミングさせない)
 	int action;//敵の行動パターンなどに
 	int bombtime;//ボムの爆発が終わるまでの時間(1秒を想定)
+	int bomb_x;
+	int bomb_y;
 };
 
 bool isHit(Object en1, Object en2);//当たり判定関数

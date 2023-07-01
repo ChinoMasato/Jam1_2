@@ -6,9 +6,8 @@
 
 Object player;//プレイヤー
 int shotse;//ショットSE
-double PI = 3.14;
 int pushtime = 0;
-int count = 0;
+extern int count;
 
 //プレイヤーの初期化
 void initPlayer()
@@ -36,19 +35,19 @@ void updatePlayer()
 	//プレイヤーを動かす
 	if (CheckHitKey(KEY_INPUT_RIGHT) == 1)
 	{
-		player.x += 2.0;
+		player.x += 4.0;
 	}
 	if (CheckHitKey(KEY_INPUT_LEFT) == 1)
 	{
-		player.x -= 2.0;
+		player.x -= 4.0;
 	}
 	if (CheckHitKey(KEY_INPUT_UP) == 1)
 	{
-		player.y -= 2.0;
+		player.y -= 4.0;
 	}
 	if (CheckHitKey(KEY_INPUT_DOWN) == 1)
 	{
-		player.y += 2.0;
+		player.y += 4.0;
 	}
 	if (player.x < 0) {
 		//もし左端に出たら
@@ -82,7 +81,7 @@ void updatePlayer()
 				shot[i].enable = true;
 				player.cooltime = 10;//連射速度　小さいほど連射できる
 				shot[i].rad = 90.0 * PI / 180;
-				shot[i].type = NORMAL;
+				shot[i].shottype = NORMAL;
 				PlaySoundMem(shotse, DX_PLAYTYPE_BACK);
 				drawShot();
 				break;
@@ -109,7 +108,7 @@ void updatePlayer()
 				shot[i].enable = true;
 				player.cooltime_B = 60;//連射速度　小さいほど連射できる
 				shot[i].rad = 270.0 * PI / 180;
-				shot[i].type = BOMB;
+				shot[i].shottype = BOMB;
 				shot[i].bombtime = 60;
 				PlaySoundMem(shotse, DX_PLAYTYPE_BACK);
 				drawShot();
@@ -128,11 +127,6 @@ void updatePlayer()
 		{
 			shot[i].bombtime--;
 		}
-		// 1/2秒後に爆発して終わるまでさらに1/2秒
-		if (shot[i].bombtime <= 30)
-		{
-			
-		}
 	}
 }
 
@@ -143,11 +137,11 @@ void drawPlayer()
 	{
 		DrawGraph(player.x - 29, player.y - 24, playerimg, true);
 	}
-	if (player.muteki_time > 0 && count % 10 == 0)
+	/*if (player.muteki_time > 0 && count % 10 == 0)
 	{
 		for (int i = 0; i < 5; i++)
 		{
 			DrawGraph(player.x - 29, player.y - 24, playerimg, true);
 		}
-	}
+	}*/
 }

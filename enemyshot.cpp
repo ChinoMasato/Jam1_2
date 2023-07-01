@@ -1,8 +1,8 @@
-#include "en.h"
+#include "_system.h"
 #include "DxLib.h"
 #include "enemyshot.h"
 #include "player.h"
-#include "game.h"
+//#include "game.h"
 #include <math.h>
 
 extern int start;
@@ -13,8 +13,9 @@ extern double dx;
 extern double dy;
 extern double speed;
 extern int one_second;
+extern int count;
 
-En enemyshot[EnemyShotNum];//’e
+Object enemyshot[EnemyShotNum];//’e
 //’e‚Ì‰Šú‰»
 void initEnemyShot()
 {
@@ -35,19 +36,9 @@ void updateEnemyShot()
 		{
 			if (enemyshot[i].enable == true) {
 				//’e‚ÌŽí—Þ‚É‰ž‚¶‚Ä“®‚«•û‚ð•Ï‚¦‚é
-				if (enemyshot[i].type == ENEMY1) {
+				if (enemyshot[i].enemytype == ENEMY1) {
 					enemyshot[i].vx = enemyshot[i].vx + enemyshot[i].vvx;
 					enemyshot[i].vy = enemyshot[i].vy + enemyshot[i].vvy;
-				}
-				if (enemyshot[i].type == ENEMY2 && enemyshot[i].aim_time > 0) {
-					if (isRight(enemyshot[i], player))
-					{
-						RotVec(enemyshot[i], 1);
-					}
-					else {
-						RotVec(enemyshot[i], -1);
-					}
-					enemyshot[i].aim_time--;
 				}
 				enemyshot[i].x = enemyshot[i].x + enemyshot[i].vx;
 				enemyshot[i].y = enemyshot[i].y + enemyshot[i].vy;
