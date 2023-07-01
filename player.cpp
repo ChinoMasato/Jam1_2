@@ -7,8 +7,8 @@
 Object player;//プレイヤー
 int shotse;//ショットSE
 double PI = 3.14;
-int bombtime = 60;//30秒を想定
-int pushtime = 60;//60秒を想定
+int pushtime = 0;
+int count = 0;
 
 //プレイヤーの初期化
 void initPlayer()
@@ -22,11 +22,17 @@ void initPlayer()
 	player.color = GetColor(255, 255, 255);
 	player.fill = true;
 	player.cooltime = 0;
+	player.vx = 3;
+	player.vy = 3;
+
+	player.hp = 5;
+	player.muteki_time = 0;
 }
 
 //プレイヤーの更新
 void updatePlayer()
 {
+	count++;
 	//プレイヤーを動かす
 	if (CheckHitKey(KEY_INPUT_RIGHT) == 1)
 	{
@@ -104,6 +110,7 @@ void updatePlayer()
 				player.cooltime_B = 60;//連射速度　小さいほど連射できる
 				shot[i].rad = 270.0 * PI / 180;
 				shot[i].type = BOMB;
+				shot[i].bombtime = 60;
 				PlaySoundMem(shotse, DX_PLAYTYPE_BACK);
 				drawShot();
 				break;
@@ -113,6 +120,19 @@ void updatePlayer()
 	//銃を冷やす処理(ボム)
 	if (player.cooltime_B > 0) {
 		player.cooltime_B--;
+	}
+	for (int i = 0; i < ShotNum; i++)
+	{
+		//ボムが爆発するまでカウントダウンする
+		if (shot[i].bombtime > 0)
+		{
+			shot[i].bombtime--;
+		}
+		// 1/2秒後に爆発して終わるまでさらに1/2秒
+		if (shot[i].bombtime <= 30)
+		{
+			
+		}
 	}
 }
 

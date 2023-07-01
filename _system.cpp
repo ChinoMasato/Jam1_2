@@ -30,6 +30,8 @@ bool isRight(Object shot, Object target)
 
 	return cross > 0;
 }
+
+//‚Ç‚¤‚¢‚¤ŠÖ”‚©‚í‚©‚ç‚ñ‚ªˆê‰“ü‚ê‚½
 void RotVec(Object& shot, double r)
 {
 	double rot = r * (3.1415926539 / 180.0f);

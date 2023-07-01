@@ -38,7 +38,14 @@ struct Object
 	int cooltime_B;//連射できないようにするタイマー(ボムver)
 	double rad = 0;
 	int hp;
-	int muteki_time = 0;
-	int aim_time = 0;
-	int action;
+	int muteki_time = 0;//プレイヤーの無敵時間
+	int aim_time = 0;//ホーミングする時間(ずっとホーミングさせない)
+	int action;//敵の行動パターンなどに
+	int bombtime;//ボムの爆発が終わるまでの時間(1秒を想定)
 };
+
+bool isHit(Object en1, Object en2);//当たり判定関数
+bool isRight(Object shot, Object target);//進行方向の右にいるか
+
+//どういう関数かわからんが一応入れた
+void RotVec(Object& shot, double r);
