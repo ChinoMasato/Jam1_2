@@ -498,11 +498,11 @@ void updateEnemy()
 			}
 			if (enemy[i].enemytype == BOSS)
 			{
-				if (time >= 50 && time <= 55)
+				if (time >= 45 && time <= 48)
 				{
 					enemy[i].y += enemy[i].vy;
 				}
-				if (time > 55)
+				if (time > 48)
 				{
 					enemy[i].x += enemy[i].vx;
 					missileShot(enemy[i], 1);
@@ -658,6 +658,10 @@ void drawEnemy()
 				{
 					DrawGraph(enemy[i].x, enemy[i].y, canon_3_right_downimg, true);
 				}
+			}
+			if (enemy[i].enemytype == BOSS)
+			{
+				DrawGraph(enemy[i].x, enemy[i].y, bossimg, true);
 			}
 		}
 	}

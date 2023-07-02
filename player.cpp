@@ -25,7 +25,7 @@ void initPlayer()
 	player.vx = 3;
 	player.vy = 3;
 
-	player.hp = 5;
+	player.hp = 99;
 	player.muteki_time = 0;
 }
 
