@@ -10,35 +10,43 @@
 
 extern bool gameOverFlag;//ゲームオーバー判定
 extern int stage;
-extern int i;
-extern double speed;
+int i;
+double speed;
+double accel;
 extern double dx;
 extern double dy;
 extern double d;
-extern int boss_defeat_num;
-extern int start;
 extern const int enemy_num;
-extern int zenmetu;
 extern int count;
-extern int q;
+int q;
 extern int score;
 extern int result;
-extern int boss_action;
 extern int j;
 extern int action;
 extern int one_second;
+extern int time;
 
 Object enemy[enemy_num];//敵
 //敵の初期化
 void initEnemy()
 {
+	SRand(time);
 	//敵画像の読み込み
-	enemyimg = LoadGraph("enemy_1_1.png");
+	enemyimg = LoadGraph("enemy.png");
+	shipimg = LoadGraph("battleship_02.png");
+	canon_1_leftimg = LoadGraph("canon_1_big_left.png");
+	canon_1_rightimg = LoadGraph("canon_1_big_right.png");
+	canon_2_leftimg = LoadGraph("canon_2_left.png");
+	canon_2_rightimg = LoadGraph("canon_2_right.png");
+	canon_3_left_upimg = LoadGraph("canon_3_left_up.png");
+	canon_3_right_upimg = LoadGraph("canon_3_right_up.png");
+	canon_3_left_downimg = LoadGraph("canon_3_left_down.png");
+	canon_3_right_downimg = LoadGraph("canon_3_right_down.png");
 	//敵の初期化処理
 	for (i = 0; i < 10; i++) {
 		enemy[i].x = GetRand(799);
 		enemy[i].y = 0 - i * 100;
-		enemy[i].r = 20;
+		enemy[i].r = 25;
 		enemy[i].color = GetColor(255, 0, 0);
 		enemy[i].fill = true;
 		enemy[i].vx = 0.0;//xの移動量
@@ -49,18 +57,121 @@ void initEnemy()
 		enemy[i].enemytype = ENEMY1;
 	}
 	for (i = 10; i < 30; i++) {
-		//double speed = 3.0;
-		enemy[i].y = -1000 - i * 30;
-		enemy[i].x = 200  * cos(enemy[i].y);
-		enemy[i].r = 15;
-		enemy[i].color = GetColor(255, 0, 0);
+		speed = 3.0;
+		accel = 50.0;
+		enemy[i].rad = (i - 10) * 18;
+		enemy[i].y = -1500 - (i - 10) * 100;
+		enemy[i].x = 400;
+		enemy[i].r = 25;
+		enemy[i].color = GetColor(0, 0, 255);
 		enemy[i].fill = true;
-		enemy[i].vx = 3.0;//xの移動量
-		enemy[i].vy = 3.0;//yの移動量
+		enemy[i].vx = accel * cos(enemy[i].rad);//xの移動量
+		enemy[i].vy = speed;
 		enemy[i].enable = true;
 
 		enemy[i].hp = 1;
 		enemy[i].enemytype = ENEMY2;
+	}
+	for (i = 30; i < 45; i++) {
+		enemy[i].y = -2000 - (i - 30) * 100;
+		enemy[i].x = GetRand(799);
+		enemy[i].r = 25;
+		enemy[i].color = GetColor(0, 255, 0);
+		enemy[i].fill = true;
+		enemy[i].vx = GetRand(4);//xの移動量
+		enemy[i].vy = 3.0;//yの移動量
+		enemy[i].enable = true;
+
+		enemy[i].hp = 1;
+		enemy[i].enemytype = ENEMY3;
+	}
+	for (i = 45; i < 47; i++) {
+		enemy[i].y = -6000;
+		enemy[i].x = -(221 / 2) + (i - 45) * 800;
+		enemy[i].vx = 0.0;//xの移動量
+		enemy[i].vy = 4.0;//yの移動量
+		enemy[i].enable = true;
+		enemy[i].enemytype = SHIP;
+	}
+	for (i = 47; i < 49; i++) {
+		enemy[i].y = -6000 + 300 - 50;
+		enemy[i].x = 221 - 181 + (i - 47) * (720 - 152);
+		enemy[i].vx = 0.0;//xの移動量
+		enemy[i].vy = 4.0;//yの移動量
+		enemy[i].enable = true;
+		enemy[i].enemytype = CANON1;
+		if (i == 47)
+		{
+			enemy[i].place = LEFT_UP;
+		}
+		if (i == 48)
+		{
+			enemy[i].place = RIGHT_UP;
+		}
+	}
+	for (i = 49; i < 51; i++) {
+		enemy[i].y = -6000 + 300 - 50 - 50 - 50;//上側
+		enemy[i].x = 221 - (181 + 20) + (i - 49) * (760 - 66);
+		enemy[i].vx = 0.0;//xの移動量
+		enemy[i].vy = 4.0;//yの移動量
+		enemy[i].enable = true;
+		enemy[i].enemytype = CANON2;
+		if (i == 49)
+		{
+			enemy[i].place = LEFT_UP;
+		}
+		if (i == 50)
+		{
+			enemy[i].place = RIGHT_UP;
+		}
+	}
+	for (i = 51; i < 53; i++) {
+		enemy[i].y = -6000 + 300 - (-50 - 50);//下側
+		enemy[i].x = 221 - (181 + 20) + (i - 51) * (760 - 66);
+		enemy[i].vx = 0.0;//xの移動量
+		enemy[i].vy = 4.0;//yの移動量
+		enemy[i].enable = true;
+		enemy[i].enemytype = CANON2;
+		if (i == 51)
+		{
+			enemy[i].place = LEFT_DOWN;
+		}
+		if (i == 52)
+		{
+			enemy[i].place = RIGHT_DOWN;
+		}
+	}
+	for (i = 53; i < 55; i++) {
+		enemy[i].y = -6000 + 300 -(50 * 4) - 70;//上側
+		enemy[i].x = 221 - (181 + 30) + (i - 53) * (780 - 79);
+		enemy[i].vx = 0.0;//xの移動量
+		enemy[i].vy = 4.0;//yの移動量
+		enemy[i].enable = true;
+		enemy[i].enemytype = CANON3;
+		if (i == 53)
+		{
+			enemy[i].place = LEFT_UP;
+		}
+		if (i == 54)
+		{
+			enemy[i].place = RIGHT_UP;
+		}
+	}
+	for (i = 55; i < 57; i++) {
+		enemy[i].y = -6000 + 300 + 50 * 4;//下側
+		enemy[i].x = 221 - (181 + 30) + (i - 55) * (780 - 79);
+		enemy[i].vx = 0.0;//xの移動量
+		enemy[i].vy = 4.0;//yの移動量
+		enemy[i].enable = true;
+		enemy[i].enemytype = CANON3;
+		if (i == 55)
+		{
+			enemy[i].place = LEFT_DOWN;
+		}
+		if (i == 56)
+		{
+			enemy[i].place = RIGHT_DOWN;
+		}
 	}
 }
 
@@ -73,17 +184,144 @@ void straightShot(int rad, Object ene)
 		//撃てる弾をみつける
 		if (enemyshot[j].enable == false) {
 			//弾を撃つ
-			enemyshot[j].x = ene.x;
-			enemyshot[j].y = ene.y;
+			if (ene.enemytype == ENEMY1 || ene.enemytype == ENEMY2 || ene.enemytype == ENEMY3)
+			{
+				enemyshot[j].x = ene.x + 23;
+				enemyshot[j].y = ene.y + 52;
+			}
+			if (ene.enemytype == CANON3)
+			{
+				if (ene.place == LEFT_UP)
+				{
+					enemyshot[j].x = ene.x + 79;
+					enemyshot[j].y = ene.y + 35 + 10;
+				}
+				if (ene.place == LEFT_DOWN)
+				{
+					enemyshot[j].x = ene.x + 79;
+					enemyshot[j].y = ene.y + 35 - 20;
+				}
+				if (ene.place == RIGHT_UP)
+				{
+					enemyshot[j].x = ene.x;
+					enemyshot[j].y = ene.y + 35 + 10;
+				}
+				if (ene.place == RIGHT_DOWN)
+				{
+					enemyshot[j].x = ene.x;
+					enemyshot[j].y = ene.y + 35 - 20;
+				}
+			}
 			double PI = 3.14159265358979323846264338;
 			double minrad = PI / 180.0;//1度のラジアン
-			double speed = 1.0;//速度
+			double speed = 5.0;//速度
 			enemyshot[j].vx = speed * cos(minrad * rad);
 			enemyshot[j].vy = speed * sin(minrad * rad);
 			enemyshot[j].enable = true;
 			enemyshot[j].enemytype = ene.enemytype;
 			enemyshot[j].vvx = enemyshot[j].vx * 0.01;
 			enemyshot[j].vvy = enemyshot[j].vy * 0.01;
+			enemyshot[j].enemyshottype = NORMAL;
+			break;
+		}
+	}
+}
+
+//狙って撃つ
+void aimShot(Object ene)
+{
+	//弾を撃てる状態
+//弾が無効なときのみ初期値をセットし有効にする
+	for (int j = 0; j < EnemyShotNum; j++)
+	{
+		//撃てる弾をみつける
+		if (enemyshot[j].enable == false) {
+			//弾を撃つ
+			if (ene.enemytype == ENEMY1 || ene.enemytype == ENEMY2 || ene.enemytype == ENEMY3)
+			{
+				enemyshot[j].x = ene.x + 23;
+				enemyshot[j].y = ene.y + 52;
+			}
+			double speed = 4.0;//速度
+			double dx = player.x - ene.x;//プレイヤーと敵のx方向の距離
+			double dy = player.y - ene.y;//プレイヤーと敵のy方向の距離
+			double d = sqrt(dx * dx + dy * dy);//敵とプレイヤーとの距離
+			enemyshot[j].vx = speed * (dx / d);//xの移動量
+			enemyshot[j].vy = speed * (dy / d);//yの移動量
+			enemyshot[j].enable = true;
+			enemyshot[j].enemytype = ene.enemytype;
+			enemyshot[j].vvx = enemyshot[j].vx * 0.01;
+			enemyshot[j].vvy = enemyshot[j].vy * 0.01;
+			enemyshot[j].aim_time = one_second * 3;
+			enemyshot[j].enemyshottype = NORMAL;
+			break;
+		}
+	}
+}
+
+//狙って撃つ＋爆発する
+void missileShot(Object ene)
+{
+	//弾を撃てる状態
+//弾が無効なときのみ初期値をセットし有効にする
+	for (int j = 0; j < EnemyShotNum; j++)
+	{
+		//撃てる弾をみつける
+		if (enemyshot[j].enable == false) {
+			//弾を撃つ
+			if (ene.place == LEFT_UP)
+			{
+				enemyshot[j].x = ene.x + 152;
+			}
+			if (ene.place == RIGHT_UP)
+			{
+				enemyshot[j].x = ene.x;
+			}
+			enemyshot[j].y = ene.y + 50;
+
+			double speed = 3.0;//速度
+			double dx = player.x - ene.x;//プレイヤーと敵のx方向の距離
+			double dy = player.y - ene.y;//プレイヤーと敵のy方向の距離
+			double d = sqrt(dx * dx + dy * dy);//敵とプレイヤーとの距離
+			enemyshot[j].vx = speed * (dx / d);//xの移動量
+			enemyshot[j].vy = speed * (dy / d);//yの移動量
+			enemyshot[j].enable = true;
+			enemyshot[j].enemytype = ene.enemytype;
+			enemyshot[j].vvx = enemyshot[j].vx * 0.01;
+			enemyshot[j].vvy = enemyshot[j].vy * 0.01;
+			enemyshot[j].aim_time = one_second * 2;
+			enemyshot[j].enemyshottype = BOMB_MOVE;
+			enemyshot[j].bombtime = 120;
+			break;
+		}
+	}
+}
+
+//2列で撃つ
+void twinShot(int rad, Object ene, int q)
+{
+	//弾が無効なときのみ初期値をセットし有効にする
+	for (int j = 0; j < EnemyShotNum; j++)
+	{
+		//撃てる弾をみつける
+		if (enemyshot[j].enable == false) {
+			//弾を撃つ
+			double PI = 3.14159265358979323846264338;
+			double minrad = PI / 180.0;//1度のラジアン
+			double speed = 3.0;//速度
+			if (ene.place == LEFT_UP || ene.place == LEFT_DOWN)
+			{
+				enemyshot[j].x = ene.x + 66;
+			}
+			if (ene.place == RIGHT_UP || ene.place == RIGHT_DOWN)
+			{
+				enemyshot[j].x = ene.x;
+			}
+			enemyshot[j].y = ene.y - 15 + (q * 30) + 25;
+			enemyshot[j].vx = speed * cos(minrad * rad);
+			enemyshot[j].vy = speed * sin(minrad * rad);
+			enemyshot[j].enable = true;
+			enemyshot[j].enemyshottype = NORMAL;
 			break;
 		}
 	}
@@ -111,24 +349,105 @@ void updateEnemy()
 	for (int i = 0; i < enemy_num; i++) {
 		if (enemy[i].enable == true) {
 			//敵を自動で動かす
+			if (enemy[i].enemytype == ENEMY1)
+			{
+				enemy[i].x += enemy[i].vx;
+				enemy[i].y += enemy[i].vy;
+				//弾を発射する
+				if (canEnemyShot(enemy[i]))
+				{
+					straightShot(90, enemy[i]);
+					enemy[i].cooltime = one_second * 2;//連射速度　小さいほど連射できる
+				}
+			}
 			if (enemy[i].enemytype == ENEMY2)
 			{
-				enemy[i].vx = cos(enemy[i].vy);
+				enemy[i].rad += 0.15;
+				enemy[i].vx = accel * cos(enemy[i].rad);//xの移動量
+				enemy[i].x += enemy[i].vx;
+				enemy[i].y += enemy[i].vy;
 			}
-			enemy[i].x += enemy[i].vx;
-			enemy[i].y += enemy[i].vy;
+			if (enemy[i].enemytype == ENEMY3)
+			{
+				enemy[i].x += enemy[i].vx;
+				enemy[i].y += enemy[i].vy;
+				//弾を発射する
+				if (canEnemyShot(enemy[i]))
+				{
+					aimShot(enemy[i]);
+					enemy[i].cooltime = one_second * 2;//連射速度　小さいほど連射できる
+				}
+			}
+			if (enemy[i].enemytype == SHIP || enemy[i].enemytype == CANON1
+				|| enemy[i].enemytype == CANON2 || enemy[i].enemytype == CANON3)
+			{
+				if (time < 25 || time > 40)
+				{
+					enemy[i].y += enemy[i].vy;
+				}
+				if (time >= 25 && time <= 40)
+				{
+					//弾を発射する
+					if (canEnemyShot(enemy[i]))
+					{
+						if (enemy[i].enemytype == CANON1) {
+							missileShot(enemy[i]);
+							enemy[i].cooltime = one_second * 2;//連射速度　小さいほど連射できる
+						}
+						if (enemy[i].enemytype == CANON2) {
+							if (enemy[i].place == LEFT_UP || enemy[i].place == LEFT_DOWN)
+							{
+								for (q = 0; q < 2; q++)
+								{
+									twinShot(0, enemy[i], q);
+								}
+							}
+							if (enemy[i].place == RIGHT_UP || enemy[i].place == RIGHT_DOWN)
+							{
+								for (q = 0; q < 2; q++)
+								{
+									twinShot(180, enemy[i], q);
+								}
+							}
+							enemy[i].cooltime = one_second * 1;//連射速度　小さいほど連射できる
+						}
+						if (enemy[i].enemytype == CANON3) {
+							if (enemy[i].place == LEFT_UP)
+							{
+								for (q = 0; q < 3; q++)
+								{
+									straightShot(0 + q * 30, enemy[i]);
+								}
+							}
+							if (enemy[i].place == RIGHT_UP)
+							{
+								for (q = 0; q < 3; q++)
+								{
+									straightShot(120 + q * 30, enemy[i]);
+								}
+							}
+							if (enemy[i].place == LEFT_DOWN)
+							{
+								for (q = 0; q < 3; q++)
+								{
+									straightShot(300 + q * 30, enemy[i]);
+								}
+							}
+							if (enemy[i].place == RIGHT_DOWN)
+							{
+								for (q = 0; q < 3; q++)
+								{
+									straightShot(180 + q * 30, enemy[i]);
+								}
+							}
+							enemy[i].cooltime = one_second * 2;//連射速度　小さいほど連射できる
+						}
+					}
+				}
+			}
 			if (enemy[i].x < 0 || enemy[i].x >= 800) {
 				//もし左端・右端に出たら
 				enemy[i].vx = enemy[i].vx * -1;
-			}
-
-			//弾を発射する
-			if (canEnemyShot(enemy[i]))
-			{
-				if (enemy[i].enemytype == ENEMY1) {
-					straightShot(180, enemy[i]);
-					enemy[i].cooltime = one_second * 2;//連射速度　小さいほど連射できる
-				}
 			}
 
 			if (isHit(player, enemy[i]))
@@ -151,7 +470,7 @@ void updateEnemy()
 								StopMusic();
 								PlayMusic("STG_gameover.mp3", DX_PLAYTYPE_LOOP);
 								PlaySoundFile("STG_enemy_defeat.mp3", DX_PLAYTYPE_BACK);
-								explosion(enemy[i]);//爆発
+								//explosion(enemy[i]);//爆発
 							}
 							gameOverFlag = true;//ゲームオーバーフラグを立てる
 						}
@@ -177,11 +496,14 @@ void updateEnemy()
 							if (enemy[i].enable == true)
 							{
 								PlaySoundFile("STG_enemy_defeat.mp3", DX_PLAYTYPE_BACK);
-								explosion(enemy[i]);//爆発
+								//explosion(enemy[i]);//爆発
 							}
 							enemy[i].enable = false;//敵を無効
 						}
-						shot[j].enable = false;//弾を無効
+						if (shot[j].shottype != BOMB_MOVE && shot[j].shottype != BOMB_EXPLOSION)
+						{
+							shot[j].enable = false;//弾を無効
+						}
 						break;
 					}
 				}
@@ -192,6 +514,14 @@ void updateEnemy()
 			}
 		}
 	}
+	for (int i = 0; i < EnemyShotNum; i++)
+	{
+		//ボムが爆発するまでカウントダウンする
+		if (enemyshot[i].bombtime > 0)
+		{
+			enemyshot[i].bombtime--;
+		}
+	}
 }
 
 //敵の描画
@@ -199,7 +529,55 @@ void drawEnemy()
 {
 	for (int i = 0; i < enemy_num; i++) {
 		if (enemy[i].enable == true) {
-			DrawCircle(enemy[i].x, enemy[i].y, enemy[i].r, enemy[i].color, enemy[i].fill);
+			if (enemy[i].enemytype == ENEMY1 || enemy[i].enemytype == ENEMY2 || enemy[i].enemytype == ENEMY3)
+			{
+				DrawGraph(enemy[i].x, enemy[i].y, enemyimg, true);
+			}
+			if (enemy[i].enemytype == SHIP)
+			{
+				DrawGraph(enemy[i].x, enemy[i].y, shipimg, true);
+			}
+			if (enemy[i].enemytype == CANON1)
+			{
+				if (enemy[i].place == LEFT_UP)
+				{
+					DrawGraph(enemy[i].x, enemy[i].y, canon_1_leftimg, true);
+				}
+				if (enemy[i].place == RIGHT_UP)
+				{
+					DrawGraph(enemy[i].x, enemy[i].y, canon_1_rightimg, true);
+				}
+			}
+			if (enemy[i].enemytype == CANON2)
+			{
+				if (enemy[i].place == LEFT_UP || enemy[i].place == LEFT_DOWN)
+				{
+					DrawGraph(enemy[i].x, enemy[i].y, canon_2_leftimg, true);
+				}
+				if (enemy[i].place == RIGHT_UP || enemy[i].place == RIGHT_DOWN)
+				{
+					DrawGraph(enemy[i].x, enemy[i].y, canon_2_rightimg, true);
+				}
+			}
+			if (enemy[i].enemytype == CANON3)
+			{
+				if (enemy[i].place == LEFT_UP)
+				{
+					DrawGraph(enemy[i].x, enemy[i].y, canon_3_left_upimg, true);
+				}
+				if (enemy[i].place == RIGHT_UP)
+				{
+					DrawGraph(enemy[i].x, enemy[i].y, canon_3_right_upimg, true);
+				}
+				if (enemy[i].place == LEFT_DOWN)
+				{
+					DrawGraph(enemy[i].x, enemy[i].y, canon_3_left_downimg, true);
+				}
+				if (enemy[i].place == RIGHT_DOWN)
+				{
+					DrawGraph(enemy[i].x, enemy[i].y, canon_3_right_downimg, true);
+				}
+			}
 		}
 	}
 }

@@ -9,4 +9,4 @@ void drawEnemy();//“G‚Ì•`‰æ
 
 bool canEnemyShot(Object enemy);//’e‚ªŒ‚‚Ä‚é‚©Šm”F
 
-void explosion(Object ene); //”š”­”­¶ŠÖ”
+//void explosion(Object ene); //”š”­”­¶ŠÖ”

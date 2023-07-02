@@ -2,27 +2,52 @@
 //struct と enum の記入場所
 
 extern int playerimg;//プレイヤー画像
+//extern int shot_normalimg;//弾画像
+
 extern int enemyimg;//敵画像
-extern int shot_normalimg;//弾画像
+extern int shipimg;//戦艦画像
+extern int canon_1_leftimg;
+extern int canon_1_rightimg;
+extern int canon_2_leftimg;
+extern int canon_2_rightimg;
+extern int canon_3_left_upimg;
+extern int canon_3_right_upimg;
+extern int canon_3_left_downimg;
+extern int canon_3_right_downimg;
 
 enum EnemyType
 {
 	ENEMY1,//真っ直ぐ動いて、真っ直ぐ弾を撃つ
 	ENEMY2,//隊列で出現して、波線を描きながら突進してくる
-	ENEMY3//不規則に動いて、ホーミング弾を撃つ
+	ENEMY3,//不規則に動いて、ホーミング弾を撃つ
+	SHIP,//戦艦
+	CANON1,//大砲1
+	CANON2,//大砲2
+	CANON3//大砲3
 };
 
 enum ShotType
 {
 	NORMAL,
-	BOMB,
+	BOMB_MOVE,
+	BOMB_EXPLOSION,
 	BEAM
+};
+
+enum Place
+{
+	LEFT_UP,
+	LEFT_DOWN,
+	RIGHT_UP,
+	RIGHT_DOWN
 };
 
 //円の構造体
 struct Object
 {
 	EnemyType enemytype;//敵の種類
+	ShotType enemyshottype;
+	Place place;//砲台の位置
 	ShotType shottype;
 	double x;//X座標
 	double y;//Y座標
@@ -51,3 +76,5 @@ bool isRight(Object shot, Object target);//進行方向の右にいるか
 
 //どういう関数かわからんが一応入れた
 void RotVec(Object& shot, double r);
+
+void updateGame();

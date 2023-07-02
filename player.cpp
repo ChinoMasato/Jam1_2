@@ -8,16 +8,17 @@ Object player;//プレイヤー
 int shotse;//ショットSE
 int pushtime = 0;
 extern int count;
+double PI = 3.14;
 
 //プレイヤーの初期化
 void initPlayer()
 {
 	//プレイヤー画像の読み込み
-	playerimg = LoadGraph("player_1.png");
+	playerimg = LoadGraph("player_2.png");
 	shotse = LoadSoundMem("maou_se_battle16.mp3");
 	player.x = 400;
 	player.y = 550;
-	player.r = 10;
+	player.r = 25;
 	player.color = GetColor(255, 255, 255);
 	player.fill = true;
 	player.cooltime = 0;
@@ -76,11 +77,11 @@ void updatePlayer()
 			//撃てる弾をみつける
 			if (shot[i].enable == false) {
 				//弾を撃つ
-				shot[i].x = player.x;
-				shot[i].y = player.y;
+				shot[i].x = player.x + 10;
+				shot[i].y = player.y - 12;
 				shot[i].enable = true;
 				player.cooltime = 10;//連射速度　小さいほど連射できる
-				shot[i].rad = 90.0 * PI / 180;
+				shot[i].rad = 270.0 * PI / 180;
 				shot[i].shottype = NORMAL;
 				PlaySoundMem(shotse, DX_PLAYTYPE_BACK);
 				drawShot();
@@ -103,12 +104,12 @@ void updatePlayer()
 			//撃てる弾をみつける
 			if (shot[i].enable == false) {
 				//弾を撃つ
-				shot[i].x = player.x;
-				shot[i].y = player.y;
+				shot[i].x = player.x + 10;
+				shot[i].y = player.y - 12;
 				shot[i].enable = true;
 				player.cooltime_B = 60;//連射速度　小さいほど連射できる
 				shot[i].rad = 270.0 * PI / 180;
-				shot[i].shottype = BOMB;
+				shot[i].shottype = BOMB_MOVE;
 				shot[i].bombtime = 60;
 				PlaySoundMem(shotse, DX_PLAYTYPE_BACK);
 				drawShot();
@@ -133,10 +134,11 @@ void updatePlayer()
 //プレイヤーの描画
 void drawPlayer()
 {
-	if (player.muteki_time <= 0)
+	DrawGraph(player.x - 15, player.y - 15, playerimg, true);
+	/*if (player.muteki_time <= 0)
 	{
-		DrawGraph(player.x - 29, player.y - 24, playerimg, true);
-	}
+		DrawGraph(player.x - 15, player.y - 15, playerimg, true);
+	}*/
 	/*if (player.muteki_time > 0 && count % 10 == 0)
 	{
 		for (int i = 0; i < 5; i++)

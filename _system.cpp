@@ -1,9 +1,38 @@
 #include "_system.h"
+#include "DxLib.h"
 #include <math.h>
+#include "player.h"
 
 int playerimg;//ƒvƒŒƒCƒ„[‰æ‘œ
 int enemyimg;//“G‰æ‘œ
-int shot_normalimg;//’e‰æ‘œ
+//int shot_normalimg;//’e‰æ‘œ
+int shipimg;
+int canon_1_leftimg;
+int canon_1_rightimg;
+int canon_2_leftimg;
+int canon_2_rightimg;
+int canon_3_left_upimg;
+int canon_3_right_upimg;
+int canon_3_left_downimg;
+int canon_3_right_downimg;
+
+int count = 0;
+int one_second = 120;
+int time = 0;
+bool gameOverFlag;
+
+void updateGame()
+{
+	count++;
+	if (gameOverFlag == false && count % one_second == 0) //144‚Å1•bH(ŠwZ‚ÌPC‚Ìê‡)
+	{
+		time++;
+	}
+	if (player.muteki_time > 0)
+	{
+		player.muteki_time--;
+	}
+}
 
 //‰~‚Ì“–‚½‚è”»’èŠÖ”
 bool isHit(Object en1, Object en2)
