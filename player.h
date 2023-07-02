@@ -1,9 +1,10 @@
 #pragma once
 #include "_system.h"
 
-extern Object player;//プレイヤー
-extern double PI;
+extern entity pl;
 
-void initPlayer();//プレイヤーの初期化
-void updatePlayer();//プレイヤーの更新
-void drawPlayer();
+void init_player();
+
+void up_player();
+
+void draw_player();

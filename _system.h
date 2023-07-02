@@ -79,14 +79,6 @@ struct Object
 	int launchtime_B;
 };
 
-bool isHit(Object en1, Object en2);//当たり判定関数
-bool isRight(Object shot, Object target);//進行方向の右にいるか
-
-//どういう関数かわからんが一応入れた
-void RotVec(Object& shot, double r);
-
-void updateGame();
-
 
 /*----------------------------------------------------------------------------------------------*/
 
@@ -110,12 +102,16 @@ struct entity
 	int color;
 	bool live;
 	int time;
+	int muteki_time;
+	int hp;
 };
 
 struct SYSTEM
 {
 	int se_shot;
+	int se_break;
 	int count_skin;
+	int count_scene;
 };
 
 const int sys_ = 10;
@@ -123,3 +119,21 @@ const int sys_ = 10;
 extern SCENE scene;
 extern PLshot pl_shot_type;
 extern SYSTEM sys[sys_];
+
+
+/*----------------------------------------------------------------------------------------------*/
+
+
+bool isHit(entity en1, Object en2);//当たり判定関数
+bool isRight(Object shot, entity target);//進行方向の右にいるか
+
+//どういう関数かわからんが一応入れた
+void RotVec(Object& shot, double r);
+
+void updateGame();
+
+
+void scene_1();
+void scene_2();
+void scene_3();
+void scene_4();

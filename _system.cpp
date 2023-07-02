@@ -18,9 +18,11 @@ int canon_3_right_downimg;
 int bossimg;
 
 int count = 0;
-int one_second = 120;
+int one_second = 60;
 int time = 0;
 bool gameOverFlag;
+
+SYSTEM sys[sys_];
 
 void updateGame()
 {
@@ -29,14 +31,14 @@ void updateGame()
 	{
 		time++;
 	}
-	if (player.muteki_time > 0)
+	if (pl.muteki_time > 0)
 	{
-		player.muteki_time--;
+		pl.muteki_time--;
 	}
 }
 
 //円の当たり判定関数
-bool isHit(Object en1, Object en2)
+bool isHit(entity en1, Object en2)
 {
 	//二つの円の当たり判定
 	double dx = en1.x - en2.x;//横の距離
@@ -52,7 +54,7 @@ bool isHit(Object en1, Object en2)
 }
 
 //進行方向の右側にターゲットがいるか判定する関数
-bool isRight(Object shot, Object target)
+bool isRight(Object shot, entity target)
 {
 	double dy = target.y - shot.y;
 	double dx = target.x - shot.x;

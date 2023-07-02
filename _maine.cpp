@@ -1,6 +1,6 @@
 #include "DxLib.h"
 #include "player.h"
-#include "shot.h"
+#include "player_shot.h"
 #include "enemyshot.h"
 #include "enemy.h"
 #include "_system.h"
@@ -25,17 +25,31 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	init();//初期化処理の呼び出し　起動時一度だけ呼び出す
+	PlayMusic("Disturbance.mp3", DX_PLAYTYPE_LOOP);
 
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
 		up_back();
 		draw_back();
 
-		update();//更新処理の呼び出し
+		if (scene == scene1)
+		{
+			scene_1();
+		}
+		if (scene == scene2)
+		{
+			scene_2();
+		}
+		if (scene == scene3)
+		{
+			scene_3();
+			update();//更新処理の呼び出し
+		}
+		if (scene == scene4)
+		{
+			scene_4();
+		}
 
-		//ドット描画処理
-		int color = GetColor(255, 255, 255);
-		DrawPixel(400, 300, color);
 		ScreenFlip();
 		ClearDrawScreen();
 	}
@@ -50,9 +64,9 @@ void init()
 
 	init_back();
 	//プレイヤーの初期化
-	initPlayer();
+	init_player();
 	//弾の初期化
-	initShot();
+	init_player_shot();
 	initEnemyShot();
 	//敵の初期化処理
 	initEnemy();
@@ -62,9 +76,9 @@ void init()
 void update()
 {
 	//プレイヤーの更新
-	updatePlayer();
+	up_player();
 	//弾の更新
-	updateShot();
+	up_player_shot();
 	updateEnemyShot();
 	//敵の更新
 	updateEnemy();
@@ -79,11 +93,11 @@ void update()
 //描画処理
 void draw()
 {
+	//弾の描画
+	draw_player_shot();
+	drawEnemyShot();
 	//敵の描画
 	drawEnemy();
 	//プレイヤーの描画
-	drawPlayer();
-	//弾の描画
-	drawShot();
-	drawEnemyShot();
+	draw_player();
 }

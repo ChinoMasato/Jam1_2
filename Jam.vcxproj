@@ -90,7 +90,7 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyshot.h" />
     <ClInclude Include="player.h" />
-    <ClInclude Include="shot.h" />
+    <ClInclude Include="player_shot.h" />
     <ClInclude Include="_system.h" />
   </ItemGroup>
   <ItemGroup>
@@ -98,7 +98,8 @@
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyshot.cpp" />
     <ClCompile Include="player.cpp" />
-    <ClCompile Include="shot.cpp" />
+    <ClCompile Include="player_shot.cpp" />
+    <ClCompile Include="scene.cpp" />
     <ClCompile Include="_maine.cpp" />
     <ClCompile Include="_system.cpp" />
   </ItemGroup>

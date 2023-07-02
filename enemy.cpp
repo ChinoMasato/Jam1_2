@@ -1,7 +1,7 @@
 #include "_system.h"
 #include "DxLib.h"
 #include <math.h>
-#include "shot.h"
+#include "player_shot.h"
 #include "enemyshot.h"
 #include "enemy.h"
 #include "player.h"
@@ -43,6 +43,8 @@ void initEnemy()
 	canon_3_left_downimg = LoadGraph("canon_3_left_down.png");
 	canon_3_right_downimg = LoadGraph("canon_3_right_down.png");
 	bossimg = LoadGraph("boss.png");
+
+	sys[0].se_break = LoadSoundMem("tyun.mp3");
 	//敵の初期化処理
 	for (i = 0; i < 10; i++) {
 		enemy[i].x = GetRand(799);
@@ -52,7 +54,7 @@ void initEnemy()
 		enemy[i].vy = 2.0;//yの移動量
 		enemy[i].enable = true;
 
-		enemy[i].hp = 1;
+		enemy[i].hp = 10;
 		enemy[i].enemytype = ENEMY1;
 	}
 	for (i = 10; i < 30; i++) {
@@ -66,7 +68,7 @@ void initEnemy()
 		enemy[i].vy = speed;
 		enemy[i].enable = true;
 
-		enemy[i].hp = 1;
+		enemy[i].hp = 4;
 		enemy[i].enemytype = ENEMY2;
 	}
 	for (i = 30; i < 45; i++) {
@@ -77,7 +79,7 @@ void initEnemy()
 		enemy[i].vy = 3.0;//yの移動量
 		enemy[i].enable = true;
 
-		enemy[i].hp = 1;
+		enemy[i].hp = 10;
 		enemy[i].enemytype = ENEMY3;
 	}
 	for (i = 45; i < 47; i++) {
@@ -177,7 +179,7 @@ void initEnemy()
 		enemy[i].vy = 4.0;//yの移動量
 		enemy[i].enable = true;
 
-		enemy[i].hp = 40;
+		enemy[i].hp = 200;
 		enemy[i].enemytype = BOSS;
 	}
 }
@@ -250,8 +252,8 @@ void aimShot(Object ene)
 				enemyshot[j].y = ene.y + 52;
 			}
 			double speed = 4.0;//速度
-			double dx = player.x - ene.x;//プレイヤーと敵のx方向の距離
-			double dy = player.y - ene.y;//プレイヤーと敵のy方向の距離
+			double dx = pl.x - ene.x;//プレイヤーと敵のx方向の距離
+			double dy = pl.y - ene.y;//プレイヤーと敵のy方向の距離
 			double d = sqrt(dx * dx + dy * dy);//敵とプレイヤーとの距離
 			enemyshot[j].vx = speed * (dx / d);//xの移動量
 			enemyshot[j].vy = speed * (dy / d);//yの移動量
@@ -305,8 +307,8 @@ void missileShot(Object ene, int q)
 			}
 
 			double speed = 3.0;//速度
-			double dx = player.x - ene.x;//プレイヤーと敵のx方向の距離
-			double dy = player.y - ene.y;//プレイヤーと敵のy方向の距離
+			double dx = pl.x - ene.x;//プレイヤーと敵のx方向の距離
+			double dy = pl.y - ene.y;//プレイヤーと敵のy方向の距離
 			double d = sqrt(dx * dx + dy * dy);//敵とプレイヤーとの距離
 			enemyshot[j].vx = speed * (dx / d);//xの移動量
 			enemyshot[j].vy = speed * (dy / d);//yの移動量
@@ -372,7 +374,7 @@ void Beam(int rad, Object ene)
 			enemyshot[j].vvx = enemyshot[j].vx * 0.0;
 			enemyshot[j].vvy = enemyshot[j].vy * 0.0;
 			enemyshot[j].enemyshottype = BEAM_STANDBY;
-			enemyshot[j].standbytime_B = 45;
+			enemyshot[j].standbytime_B = 1000;
 			break;
 		}
 	}
@@ -498,27 +500,27 @@ void updateEnemy()
 			}
 			if (enemy[i].enemytype == BOSS)
 			{
-				if (time >= 45 && time <= 48)
+				if (enemy[i].y < 100 && enemy[46].y >= 700)
 				{
 					enemy[i].y += enemy[i].vy;
 				}
-				if (time > 48)
+				if (enemy[i].y >= 100)
 				{
 					enemy[i].x += enemy[i].vx;
 					missileShot(enemy[i], 1);
 					missileShot(enemy[i], 2);
-					enemy[i].boss_cooltime_M = one_second * 2;//連射速度　小さいほど連射できる
+					enemy[i].boss_cooltime_M = one_second * 1;//連射速度　小さいほど連射できる
 					if (count % (one_second * 8) == 0)
 					{
 						Beam(90, enemy[i]);
-						enemy[i].boss_cooltime_B = one_second * 8;//連射速度　小さいほど連射できる
+						enemy[i].boss_cooltime_B = one_second * 1;//連射速度　小さいほど連射できる
 					}
 					else {
 						for (q = 0; q < 3; q++)
 						{
 							straightShot(75 + q * 15, enemy[i]);
 						}
-						enemy[i].boss_cooltime_S = one_second * 2;//連射速度　小さいほど連射できる
+						enemy[i].boss_cooltime_S = one_second * 1;//連射速度　小さいほど連射できる
 					}
 				}
 			}
@@ -527,21 +529,21 @@ void updateEnemy()
 				enemy[i].vx = enemy[i].vx * -1;
 			}
 
-			if (isHit(player, enemy[i]))
+			if (isHit(pl, enemy[i]))
 			{
 				//当たっている
-				if (player.muteki_time <= 0)
+				if (pl.muteki_time <= 0)
 				{
-					if (player.hp > 0)
+					if (pl.hp > 0)
 					{
-						player.hp--;
+						pl.hp--;
 						PlaySoundFile("STG_player_damege.mp3", DX_PLAYTYPE_BACK);
 
 						//デバッグ用
 						//player.hp++;
-						if (player.hp <= 0)
+						if (pl.hp <= 0)
 						{
-							player.color = enemyshot[i].color;
+							pl.color = enemyshot[i].color;
 							if (gameOverFlag == false)
 							{
 								StopMusic();
@@ -552,34 +554,32 @@ void updateEnemy()
 							gameOverFlag = true;//ゲームオーバーフラグを立てる
 						}
 						else {
-							player.muteki_time = one_second * 3; //60毎フレーム*3=180→3秒間無敵時間ができる
+							pl.muteki_time = one_second * 3; //60毎フレーム*3=180→3秒間無敵時間ができる
 						}
 					}
 				}
 			}
 
-			for (int j = 0; j < ShotNum; j++) {
+			for (int j = 0; j < ps_; j++) {
 				//敵と弾との当たり判定
-				if (shot[j].enable == true) {
-					if (isHit(shot[j], enemy[i]))
+				if (ps[j].live == true) {
+					if (isHit(ps[j], enemy[i]))
 					{
 						//当たっている
 						if (enemy[i].hp > 0)
 						{
 							enemy[i].hp--;
+							ps[j].live = false;
 						}
 						if (enemy[i].hp <= 0)
 						{
 							if (enemy[i].enable == true)
 							{
-								PlaySoundFile("STG_enemy_defeat.mp3", DX_PLAYTYPE_BACK);
+
+								PlaySoundMem(sys[0].se_break, DX_PLAYTYPE_BACK);
 								//explosion(enemy[i]);//爆発
 							}
 							enemy[i].enable = false;//敵を無効
-						}
-						if (shot[j].shottype != BOMB_MOVE && shot[j].shottype != BOMB_EXPLOSION)
-						{
-							shot[j].enable = false;//弾を無効
 						}
 						break;
 					}
@@ -663,6 +663,9 @@ void drawEnemy()
 			{
 				DrawGraph(enemy[i].x, enemy[i].y, bossimg, true);
 			}
+
+			//--------------------------------
+			//DrawCircle(enemy[i].x, enemy[i].y, enemy[i].r, GetColor(0, 255, 0), true);
 		}
 	}
 }

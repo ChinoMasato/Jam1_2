@@ -21,7 +21,7 @@ void initEnemyShot()
 {
 	for (int i = 0; i < EnemyShotNum; i++) {
 		enemyshot[i].r = 5;
-		enemyshot[i].color = GetColor(255,0, 0);
+		enemyshot[i].color = GetColor(255,255, 0);
 		enemyshot[i].fill = true;
 		enemyshot[i].enable = false;
 	}
@@ -39,7 +39,7 @@ void updateEnemyShot()
 				enemyshot[i].vy = enemyshot[i].vy + enemyshot[i].vvy;
 			}
 			if (enemyshot[i].enemytype == ENEMY3 && enemyshot[i].aim_time > 0) {
-				if (isRight(enemyshot[i], player))
+				if (isRight(enemyshot[i], pl))
 				{
 					RotVec(enemyshot[i], 1);
 				}
@@ -50,7 +50,7 @@ void updateEnemyShot()
 			}
 			if ((enemyshot[i].enemytype == CANON1 || enemyshot[i].enemytype == BOSS) && enemyshot[i].aim_time > 0)
 			{
-				if (isRight(enemyshot[i], player))
+				if (isRight(enemyshot[i], pl))
 				{
 					RotVec(enemyshot[i], 1);
 				}
@@ -69,21 +69,20 @@ void updateEnemyShot()
 				enemyshot[i].enable = false;
 			}
 		}
-		if (isHit(player, enemyshot[i]))
+		if (isHit(pl, enemyshot[i]))
 		{
 			//“–‚½‚Á‚Ä‚¢‚é
-			if (player.muteki_time <= 0)
+			if (pl.muteki_time <= 0)
 			{
-				if (player.hp > 0)
+				if (pl.hp > 0)
 				{
-					player.hp--;
+					pl.hp--;
 					PlaySoundFile("STG_player_damege.mp3", DX_PLAYTYPE_BACK);
 
 					//ƒfƒoƒbƒO—p
 					//player.hp++;
-					if (player.hp <= 0)
+					if (pl.hp <= 0)
 					{
-						player.color = enemyshot[i].color;
 						if (gameOverFlag == false)
 						{
 							StopMusic();
@@ -93,7 +92,7 @@ void updateEnemyShot()
 						gameOverFlag = true;//ƒQ[ƒ€ƒI[ƒo[ƒtƒ‰ƒO‚ð—§‚Ä‚é
 					}
 					else {
-						player.muteki_time = one_second * 3; //3•bŠÔ–³“GŽžŠÔ‚ª‚Å‚«‚é
+						pl.muteki_time = one_second * 3; //3•bŠÔ–³“GŽžŠÔ‚ª‚Å‚«‚é
 					}
 				}
 			}
@@ -115,12 +114,12 @@ void drawEnemyShot()
 			{
 				//enemyshot[i].color = GetColor(255, 255, 0);
 				//“G’e(ƒ{ƒ€)‚Ì‰æ‘œ
-				if (enemyshot[i].bombtime > 0 && isHit(enemyshot[i], player) == false)
+				if (enemyshot[i].bombtime > 0 && isHit( pl,enemyshot[i]) == false)
 				{
 					enemyshot[i].r = 5;
 					DrawCircle(enemyshot[i].x, enemyshot[i].y, enemyshot[i].r, enemyshot[i].color, enemyshot[i].fill);
 				}
-				if (enemyshot[i].bombtime <= 0 || isHit(enemyshot[i], player) == true)
+				if (enemyshot[i].bombtime <= 0 || isHit(pl,enemyshot[i]) == true)
 				{
 					enemyshot[i].enemyshottype = BOMB_EXPLOSION;
 					enemyshot[i].bomb_x = enemyshot[i].x;
