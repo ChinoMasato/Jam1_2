@@ -11,6 +11,7 @@ void update();//更新関数のプロトタイプ宣言
 void draw();//描画処理
 
 extern int time;
+extern bool gameOverFlag;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -67,6 +68,7 @@ void update()
 	updateGame();
 
 	DrawFormatString(0, 0, GetColor(255, 255, 0), "時間経過 %d 秒", time);
+	DrawFormatString(0, 24, GetColor(255, 255, 0), "ゲームオーバー %d", gameOverFlag);
 }
 
 //描画処理
