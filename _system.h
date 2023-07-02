@@ -86,3 +86,40 @@ bool isRight(Object shot, Object target);//êiçsï˚å¸ÇÃâEÇ…Ç¢ÇÈÇ©
 void RotVec(Object& shot, double r);
 
 void updateGame();
+
+
+/*---------------------------------------------------------------------------------------------*/
+
+
+enum SCENE
+{
+	scene1, scene2, scene3, scene4
+};
+
+enum PLshot
+{
+	type1, type2, type3
+};
+
+struct entity
+{
+	double x, y, r;
+	double x1, x2, x3, x4, y1, y2, y3, y4;
+	double vx, vy, vvx, vvy;
+
+	int color;
+	bool live;
+	int time;
+};
+
+struct SYSTEM
+{
+	int se_shot;
+	int count_skin;
+};
+
+const int sys_ = 10;
+
+extern SCENE scene;
+extern PLshot pl_shot_type;
+extern SYSTEM sys[sys_];

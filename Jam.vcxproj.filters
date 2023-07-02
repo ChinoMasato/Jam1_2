@@ -24,6 +24,9 @@
     <ClInclude Include="enemyshot.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="backscreen.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="player.cpp">
@@ -42,6 +45,9 @@
       <Filter>cpp</Filter>
     </ClCompile>
     <ClCompile Include="_maine.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="backscreen.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
   </ItemGroup>

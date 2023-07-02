@@ -4,6 +4,7 @@
 #include "enemyshot.h"
 #include "enemy.h"
 #include "_system.h"
+#include "backscreen.h"
 
 
 void init();
@@ -26,6 +27,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
+		up_back();
+		draw_back();
+
 		update();//更新処理の呼び出し
 
 		//ドット描画処理
@@ -43,6 +47,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 void init()
 {
 
+	init_back();
 	//プレイヤーの初期化
 	initPlayer();
 	//弾の初期化

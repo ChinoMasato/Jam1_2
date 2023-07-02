@@ -86,6 +86,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="backscreen.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyshot.h" />
     <ClInclude Include="player.h" />
@@ -93,6 +94,7 @@
     <ClInclude Include="_system.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="backscreen.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyshot.cpp" />
     <ClCompile Include="player.cpp" />
