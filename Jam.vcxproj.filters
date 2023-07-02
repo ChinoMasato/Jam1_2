@@ -41,5 +41,8 @@
     <ClCompile Include="enemy.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
+    <ClCompile Include="_maine.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

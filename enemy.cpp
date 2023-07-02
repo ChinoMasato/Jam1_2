@@ -42,13 +42,12 @@ void initEnemy()
 	canon_3_right_upimg = LoadGraph("canon_3_right_up.png");
 	canon_3_left_downimg = LoadGraph("canon_3_left_down.png");
 	canon_3_right_downimg = LoadGraph("canon_3_right_down.png");
+	bossimg = LoadGraph("boss.png");
 	//敵の初期化処理
 	for (i = 0; i < 10; i++) {
 		enemy[i].x = GetRand(799);
 		enemy[i].y = 0 - i * 100;
 		enemy[i].r = 25;
-		enemy[i].color = GetColor(255, 0, 0);
-		enemy[i].fill = true;
 		enemy[i].vx = 0.0;//xの移動量
 		enemy[i].vy = 2.0;//yの移動量
 		enemy[i].enable = true;
@@ -63,8 +62,6 @@ void initEnemy()
 		enemy[i].y = -1500 - (i - 10) * 100;
 		enemy[i].x = 400;
 		enemy[i].r = 25;
-		enemy[i].color = GetColor(0, 0, 255);
-		enemy[i].fill = true;
 		enemy[i].vx = accel * cos(enemy[i].rad);//xの移動量
 		enemy[i].vy = speed;
 		enemy[i].enable = true;
@@ -76,8 +73,6 @@ void initEnemy()
 		enemy[i].y = -2000 - (i - 30) * 100;
 		enemy[i].x = GetRand(799);
 		enemy[i].r = 25;
-		enemy[i].color = GetColor(0, 255, 0);
-		enemy[i].fill = true;
 		enemy[i].vx = GetRand(4);//xの移動量
 		enemy[i].vy = 3.0;//yの移動量
 		enemy[i].enable = true;
@@ -173,6 +168,18 @@ void initEnemy()
 			enemy[i].place = RIGHT_DOWN;
 		}
 	}
+	//ボス
+	for (i = 57; i < 58; i++) {
+		enemy[i].y = -900;
+		enemy[i].x = 400 - 150;
+		enemy[i].r = 150;
+		enemy[i].vx = GetRand(3) + 3;//xの移動量
+		enemy[i].vy = 4.0;//yの移動量
+		enemy[i].enable = true;
+
+		enemy[i].hp = 40;
+		enemy[i].enemytype = BOSS;
+	}
 }
 
 //真っすぐ弾を撃つ
@@ -219,8 +226,8 @@ void straightShot(int rad, Object ene)
 			enemyshot[j].vy = speed * sin(minrad * rad);
 			enemyshot[j].enable = true;
 			enemyshot[j].enemytype = ene.enemytype;
-			enemyshot[j].vvx = enemyshot[j].vx * 0.01;
-			enemyshot[j].vvy = enemyshot[j].vy * 0.01;
+			enemyshot[j].vvx = enemyshot[j].vx * 0.03;
+			enemyshot[j].vvy = enemyshot[j].vy * 0.03;
 			enemyshot[j].enemyshottype = NORMAL;
 			break;
 		}
@@ -260,7 +267,7 @@ void aimShot(Object ene)
 }
 
 //狙って撃つ＋爆発する
-void missileShot(Object ene)
+void missileShot(Object ene, int q)
 {
 	//弾を撃てる状態
 //弾が無効なときのみ初期値をセットし有効にする
@@ -272,12 +279,30 @@ void missileShot(Object ene)
 			if (ene.place == LEFT_UP)
 			{
 				enemyshot[j].x = ene.x + 152;
+				enemyshot[j].y = ene.y + 50;
+				enemyshot[j].bombtime = 120;
+				enemyshot[j].aim_time = one_second * 2;
+				enemyshot[j].vvx = enemyshot[j].vx * 0.03;
+				enemyshot[j].vvy = enemyshot[j].vy * 0.03;
 			}
 			if (ene.place == RIGHT_UP)
 			{
 				enemyshot[j].x = ene.x;
+				enemyshot[j].y = ene.y + 50;
+				enemyshot[j].bombtime = 120;
+				enemyshot[j].aim_time = one_second * 2;
+				enemyshot[j].vvx = enemyshot[j].vx * 0.03;
+				enemyshot[j].vvy = enemyshot[j].vy * 0.03;
 			}
-			enemyshot[j].y = ene.y + 50;
+			if (ene.enemytype == BOSS)
+			{
+				enemyshot[j].x = ene.x + 30 + (q - 1) * 240;
+				enemyshot[j].y = ene.y + 200;
+				enemyshot[j].bombtime = 120;
+				enemyshot[j].aim_time = one_second * 2;
+				enemyshot[j].vvx = enemyshot[j].vx * 0.05;
+				enemyshot[j].vvy = enemyshot[j].vy * 0.05;
+			}
 
 			double speed = 3.0;//速度
 			double dx = player.x - ene.x;//プレイヤーと敵のx方向の距離
@@ -287,11 +312,7 @@ void missileShot(Object ene)
 			enemyshot[j].vy = speed * (dy / d);//yの移動量
 			enemyshot[j].enable = true;
 			enemyshot[j].enemytype = ene.enemytype;
-			enemyshot[j].vvx = enemyshot[j].vx * 0.01;
-			enemyshot[j].vvy = enemyshot[j].vy * 0.01;
-			enemyshot[j].aim_time = one_second * 2;
 			enemyshot[j].enemyshottype = BOMB_MOVE;
-			enemyshot[j].bombtime = 120;
 			break;
 		}
 	}
@@ -322,6 +343,36 @@ void twinShot(int rad, Object ene, int q)
 			enemyshot[j].vy = speed * sin(minrad * rad);
 			enemyshot[j].enable = true;
 			enemyshot[j].enemyshottype = NORMAL;
+			break;
+		}
+	}
+}
+
+//ビームを撃つ
+void Beam(int rad, Object ene)
+{
+	//弾が無効なときのみ初期値をセットし有効にする
+	for (int j = 0; j < EnemyShotNum; j++)
+	{
+		//撃てる弾をみつける
+		if (enemyshot[j].enable == false) {
+			//弾を撃つ
+			if (ene.enemytype == BOSS)
+			{
+				enemyshot[j].x = ene.x + 150;
+				enemyshot[j].y = ene.y + 300;
+			}
+			double PI = 3.14159265358979323846264338;
+			double minrad = PI / 180.0;//1度のラジアン
+			double speed = 5.0;//速度
+			enemyshot[j].vx = speed * cos(minrad * rad);
+			enemyshot[j].vy = speed * sin(minrad * rad);
+			enemyshot[j].enable = true;
+			enemyshot[j].enemytype = ene.enemytype;
+			enemyshot[j].vvx = enemyshot[j].vx * 0.0;
+			enemyshot[j].vvy = enemyshot[j].vy * 0.0;
+			enemyshot[j].enemyshottype = BEAM_STANDBY;
+			enemyshot[j].standbytime_B = 45;
 			break;
 		}
 	}
@@ -391,7 +442,7 @@ void updateEnemy()
 					if (canEnemyShot(enemy[i]))
 					{
 						if (enemy[i].enemytype == CANON1) {
-							missileShot(enemy[i]);
+							missileShot(enemy[i], 0);
 							enemy[i].cooltime = one_second * 2;//連射速度　小さいほど連射できる
 						}
 						if (enemy[i].enemytype == CANON2) {
@@ -442,6 +493,32 @@ void updateEnemy()
 							}
 							enemy[i].cooltime = one_second * 2;//連射速度　小さいほど連射できる
 						}
+					}
+				}
+			}
+			if (enemy[i].enemytype == BOSS)
+			{
+				if (time >= 50 && time <= 55)
+				{
+					enemy[i].y += enemy[i].vy;
+				}
+				if (time > 55)
+				{
+					enemy[i].x += enemy[i].vx;
+					missileShot(enemy[i], 1);
+					missileShot(enemy[i], 2);
+					enemy[i].boss_cooltime_M = one_second * 2;//連射速度　小さいほど連射できる
+					if (count % (one_second * 8) == 0)
+					{
+						Beam(90, enemy[i]);
+						enemy[i].boss_cooltime_B = one_second * 8;//連射速度　小さいほど連射できる
+					}
+					else {
+						for (q = 0; q < 3; q++)
+						{
+							straightShot(75 + q * 15, enemy[i]);
+						}
+						enemy[i].boss_cooltime_S = one_second * 2;//連射速度　小さいほど連射できる
 					}
 				}
 			}
@@ -521,6 +598,10 @@ void updateEnemy()
 		{
 			enemyshot[i].bombtime--;
 		}
+		if (enemyshot[i].standbytime_B > 0)
+		{
+			enemyshot[i].standbytime_B--;
+		}
 	}
 }
 
@@ -587,6 +668,16 @@ bool canEnemyShot(Object enemy)
 	//銃が冷えている
 	if (enemy.cooltime <= 0) {
 		if(enemy.x >=0 &&
+			enemy.x < 800 &&
+			enemy.y>0 &&
+			enemy.y < 600)
+		{
+			//画面の中にいる
+			return true;
+		}
+	}
+	if (enemy.enemytype == BOSS && (enemy.boss_cooltime_M <= 0 || enemy.boss_cooltime_S <= 0 || enemy.boss_cooltime_B <= 0)) {
+		if (enemy.x >= 0 &&
 			enemy.x < 800 &&
 			enemy.y>0 &&
 			enemy.y < 600)

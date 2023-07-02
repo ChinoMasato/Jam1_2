@@ -76,7 +76,7 @@ void drawShot()
 					shot[i].enable = false;
 				}
 			}
-			if (shot[i].shottype == BEAM)
+			if (shot[i].shottype == BEAM_STANDBY)
 			{
 				//©‹@’e(ƒr[ƒ€)‚Ì‰æ‘œ
 			}

@@ -15,6 +15,7 @@ int canon_3_left_upimg;
 int canon_3_right_upimg;
 int canon_3_left_downimg;
 int canon_3_right_downimg;
+int bossimg;
 
 int count = 0;
 int one_second = 120;

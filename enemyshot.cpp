@@ -48,7 +48,7 @@ void updateEnemyShot()
 				}
 				enemyshot[i].aim_time--;
 			}
-			if (enemyshot[i].enemytype == CANON1)
+			if ((enemyshot[i].enemytype == CANON1 || enemyshot[i].enemytype == BOSS) && enemyshot[i].aim_time > 0)
 			{
 				if (isRight(enemyshot[i], player))
 				{
@@ -108,14 +108,14 @@ void drawEnemyShot()
 		{
 			if (enemyshot[i].enemyshottype == NORMAL)
 			{
-				//自機弾(通常)の画像
+				//敵弾(通常)の画像
 				DrawCircle(enemyshot[i].x, enemyshot[i].y, enemyshot[i].r, enemyshot[i].color, enemyshot[i].fill);
 			}
 			if (enemyshot[i].enemyshottype == BOMB_MOVE)
 			{
 				//enemyshot[i].color = GetColor(255, 255, 0);
-				//自機弾(ボム)の画像
-				if (enemyshot[i].bombtime <= 120 && enemyshot[i].bombtime > 0 && isHit(enemyshot[i], player) == false)
+				//敵弾(ボム)の画像
+				if (enemyshot[i].bombtime > 0 && isHit(enemyshot[i], player) == false)
 				{
 					enemyshot[i].r = 5;
 					DrawCircle(enemyshot[i].x, enemyshot[i].y, enemyshot[i].r, enemyshot[i].color, enemyshot[i].fill);
@@ -138,9 +138,40 @@ void drawEnemyShot()
 					enemyshot[i].enable = false;
 				}
 			}
-			if (enemyshot[i].enemyshottype == BEAM)
+			if (enemyshot[i].enemyshottype == BEAM_STANDBY)
 			{
-				//自機弾(ビーム)の画像
+				//敵弾(ビーム)の画像
+				if (enemyshot[i].standbytime_B > 0)
+				{
+					enemyshot[i].r = 5;
+					if (enemyshot[i].y < 610)
+					{
+						DrawCircle(enemyshot[i].x, enemyshot[i].y, enemyshot[i].r, enemyshot[i].color, enemyshot[i].fill);
+						enemyshot[i].y += 5;
+					}
+				}
+				if (enemyshot[i].standbytime_B <= 0)
+				{
+					enemyshot[i].enemyshottype = BEAM_LAUNCH;
+					enemyshot[i].r = 5;
+				}
+			}
+			if (enemyshot[i].enemyshottype == BEAM_LAUNCH)
+			{
+				enemyshot[i].r = 75;
+				if (enemyshot[i].launchtime_B > 0)
+				{
+					DrawCircle(enemyshot[i].x, enemyshot[i].y, enemyshot[i].r, enemyshot[i].color, enemyshot[i].fill);
+					if (enemyshot[i].y < 700)
+					{
+						enemyshot[i].y += 75;
+					}
+				}
+			}
+			//ビームを出し切るまでカウントダウンする
+			if (enemyshot[i].launchtime_B > 0)
+			{
+				enemyshot[i].launchtime_B--;
 			}
 		}
 	}

@@ -14,6 +14,7 @@ extern int canon_3_left_upimg;
 extern int canon_3_right_upimg;
 extern int canon_3_left_downimg;
 extern int canon_3_right_downimg;
+extern int bossimg;
 
 enum EnemyType
 {
@@ -23,7 +24,8 @@ enum EnemyType
 	SHIP,//íŠÍ
 	CANON1,//‘å–C1
 	CANON2,//‘å–C2
-	CANON3//‘å–C3
+	CANON3,//‘å–C3
+	BOSS//ƒ{ƒX
 };
 
 enum ShotType
@@ -31,7 +33,8 @@ enum ShotType
 	NORMAL,
 	BOMB_MOVE,
 	BOMB_EXPLOSION,
-	BEAM
+	BEAM_STANDBY,
+	BEAM_LAUNCH
 };
 
 enum Place
@@ -69,6 +72,11 @@ struct Object
 	int bombtime;//ƒ{ƒ€‚Ì”š”­‚ªI‚í‚é‚Ü‚Å‚ÌŠÔ(1•b‚ğ‘z’è)
 	int bomb_x;
 	int bomb_y;
+	int boss_cooltime_M;
+	int boss_cooltime_S;
+	int boss_cooltime_B;
+	int standbytime_B;
+	int launchtime_B;
 };
 
 bool isHit(Object en1, Object en2);//“–‚½‚è”»’èŠÖ”
