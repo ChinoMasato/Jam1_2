@@ -14,6 +14,7 @@ extern double dy;
 extern double speed;
 extern int one_second;
 extern int count;
+extern bool gameClearFlag;
 
 Object enemyshot[EnemyShotNum];//’e
 //’e‚Ì‰Šú‰»
@@ -34,9 +35,7 @@ void updateEnemyShot()
 	{
 		if (enemyshot[i].enable == true) {
 			//’e‚ÌŽí—Þ‚É‰ž‚¶‚Ä“®‚«•û‚ð•Ï‚¦‚é
-			if (enemyshot[i].enemytype == ENEMY1) {
-				enemyshot[i].vx = enemyshot[i].vx + enemyshot[i].vvx;
-				enemyshot[i].vy = enemyshot[i].vy + enemyshot[i].vvy;
+			if (enemyshot[i].enemytype == ENEMY1 || enemyshot[i].enemytype == ENEMY4) {
 			}
 			if (enemyshot[i].enemytype == ENEMY3 && enemyshot[i].aim_time > 0) {
 				if (isRight(enemyshot[i], pl))
@@ -59,6 +58,8 @@ void updateEnemyShot()
 				}
 				enemyshot[i].aim_time--;
 			}
+			enemyshot[i].vx = enemyshot[i].vx + enemyshot[i].vvx;
+			enemyshot[i].vy = enemyshot[i].vy + enemyshot[i].vvy;
 			enemyshot[i].x = enemyshot[i].x + enemyshot[i].vx;
 			enemyshot[i].y = enemyshot[i].y + enemyshot[i].vy;
 			if (enemyshot[i].x >= 800 ||
@@ -69,13 +70,16 @@ void updateEnemyShot()
 				enemyshot[i].enable = false;
 			}
 		}
-		if (isHit(pl, enemyshot[i]))
+		if (gameClearFlag == false)
 		{
-			//“–‚½‚Á‚Ä‚¢‚é
-			if (enemyshot[i].enable == true && pl.muteki_time <= 0)
+			if (isHit(pl, enemyshot[i]))
 			{
-				gameOverFlag++;
-				pl.muteki_time = one_second * 1; //3•bŠÔ–³“GŽžŠÔ‚ª‚Å‚«‚é
+				//“–‚½‚Á‚Ä‚¢‚é
+				if (enemyshot[i].enable == true && pl.muteki_time <= 0)
+				{
+					gameOverFlag++;
+					pl.muteki_time = one_second * 1; //3•bŠÔ–³“GŽžŠÔ‚ª‚Å‚«‚é
+				}
 			}
 		}
 	}

@@ -44,7 +44,7 @@ void updateGame()
 			score = 0;
 		}
 		DrawFormatString(350, 300, GetColor(255, 255, 0), "ゲームクリア！");
-		DrawFormatString(350, 348, GetColor(255, 255, 0), "スコア %d", score);
+		DrawFormatString(350, 348, GetColor(255, 255, 0), "スコア %d 点", score);
 	}
 }
 

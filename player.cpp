@@ -3,6 +3,7 @@
 #include "_system.h"
 
 entity pl;
+extern int count;
 
 void init_player()
 {
@@ -21,6 +22,8 @@ void init_player()
 	pl.time = 0;
 	pl.muteki_time = 0;
 	pl.hp = 100;
+
+	pl.r = 25;
 }
 
 void up_player()
@@ -53,5 +56,15 @@ void up_player()
 
 void draw_player()
 {
-	DrawGraph(pl.x, pl.y, pl.color, pl.live);
+	if (pl.muteki_time <= 0)
+	{
+		DrawGraph(pl.x, pl.y, pl.color, pl.live);
+	}
+	if (pl.muteki_time > 0 && count % 8 == 0)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			DrawGraph(pl.x, pl.y, pl.color, pl.live);
+		}
+	}
 }

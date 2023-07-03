@@ -25,6 +25,7 @@ extern int j;
 extern int action;
 extern int one_second;
 extern int time;
+bool gameClearFlag = false;
 
 Object enemy[enemy_num];//敵
 //敵の初期化
@@ -52,14 +53,14 @@ void initEnemy()
 		enemy[i].y = -300 - i * 100;
 		enemy[i].r = 25;
 		enemy[i].vx = 0.0;//xの移動量
-		enemy[i].vy = 2.0;//yの移動量
+		enemy[i].vy = 1.0;//yの移動量
 		enemy[i].enable = true;
 
-		enemy[i].hp = 2;
+		enemy[i].hp = 4;
 		enemy[i].enemytype = ENEMY1;
 	}
 	for (i = 10; i < 30; i++) {
-		speed = 3.0;
+		speed = 2.0;
 		accel = 50.0;
 		enemy[i].rad = (i - 10) * 18;
 		enemy[i].y = -1800 - (i - 10) * 100;
@@ -69,19 +70,30 @@ void initEnemy()
 		enemy[i].vy = speed;
 		enemy[i].enable = true;
 
-		enemy[i].hp = 2;
+		enemy[i].hp = 4;
 		enemy[i].enemytype = ENEMY2;
 	}
-	for (i = 30; i < 45; i++) {
+	for (i = 30; i < 40; i++) {
 		enemy[i].y = -2300 - (i - 30) * 100;
 		enemy[i].x = GetRand(799);
 		enemy[i].r = 25;
 		enemy[i].vx = GetRand(4);//xの移動量
-		enemy[i].vy = 3.0;//yの移動量
+		enemy[i].vy = 2.0;//yの移動量
 		enemy[i].enable = true;
 
-		enemy[i].hp = 2;
+		enemy[i].hp = 4;
 		enemy[i].enemytype = ENEMY3;
+	}
+	for (i = 40; i < 45; i++) {
+		enemy[i].y = -1300 - (i - 40) * 100;
+		enemy[i].x = GetRand(799);
+		enemy[i].r = 25;
+		enemy[i].vx = 0.0;//xの移動量
+		enemy[i].vy = 1.2;//yの移動量
+		enemy[i].enable = true;
+
+		enemy[i].hp = 4;
+		enemy[i].enemytype = ENEMY4;
 	}
 	for (i = 45; i < 47; i++) {
 		enemy[i].y = -6000;
@@ -188,7 +200,7 @@ void initEnemy()
 		enemy[i].y = -930;
 		enemy[i].x = 400 - 150;
 		enemy[i].r = 150;
-		enemy[i].vx = GetRand(3) + 3;//xの移動量
+		enemy[i].vx = GetRand(2) + 1;//xの移動量
 		enemy[i].vy = 4.0;//yの移動量
 		enemy[i].enable = true;
 
@@ -206,10 +218,12 @@ void straightShot(int rad, Object ene)
 		//撃てる弾をみつける
 		if (enemyshot[j].enable == false) {
 			//弾を撃つ
-			if (ene.enemytype == ENEMY1 || ene.enemytype == ENEMY2 || ene.enemytype == ENEMY3)
+			if (ene.enemytype == ENEMY1 || ene.enemytype == ENEMY2 || ene.enemytype == ENEMY3 || ene.enemytype == ENEMY4)
 			{
 				enemyshot[j].x = ene.x + 23;
 				enemyshot[j].y = ene.y + 52;
+				enemyshot[j].vvx = enemyshot[j].vx * 0.02;
+				enemyshot[j].vvy = enemyshot[j].vy * 0.02;
 			}
 			if (ene.enemytype == CANON3)
 			{
@@ -233,21 +247,23 @@ void straightShot(int rad, Object ene)
 					enemyshot[j].x = ene.x;
 					enemyshot[j].y = ene.y + 35 - 20;
 				}
+				enemyshot[j].vvx = enemyshot[j].vx * 0.0;
+				enemyshot[j].vvy = enemyshot[j].vy * 0.0;
 			}
 			if (ene.enemytype == BOSS)
 			{
 				enemyshot[j].x = ene.x + 150;
 				enemyshot[j].y = ene.y + 300;
+				enemyshot[j].vvx = enemyshot[j].vx * 0.02;
+				enemyshot[j].vvy = enemyshot[j].vy * 0.02;
 			}
 			double PI = 3.14159265358979323846264338;
 			double minrad = PI / 180.0;//1度のラジアン
-			double speed = 5.0;//速度
+			double speed = 4.0;//速度
 			enemyshot[j].vx = speed * cos(minrad * rad);
 			enemyshot[j].vy = speed * sin(minrad * rad);
 			enemyshot[j].enable = true;
 			enemyshot[j].enemytype = ene.enemytype;
-			enemyshot[j].vvx = enemyshot[j].vx * 0.03;
-			enemyshot[j].vvy = enemyshot[j].vy * 0.03;
 			enemyshot[j].enemyshottype = NORMAL;
 			break;
 		}
@@ -269,7 +285,7 @@ void aimShot(Object ene)
 				enemyshot[j].x = ene.x + 23;
 				enemyshot[j].y = ene.y + 52;
 			}
-			double speed = 4.0;//速度
+			double speed = 2.5;//速度
 			double dx = pl.x - ene.x;//プレイヤーと敵のx方向の距離
 			double dy = pl.y - ene.y;//プレイヤーと敵のy方向の距離
 			double d = sqrt(dx * dx + dy * dy);//敵とプレイヤーとの距離
@@ -277,8 +293,8 @@ void aimShot(Object ene)
 			enemyshot[j].vy = speed * (dy / d);//yの移動量
 			enemyshot[j].enable = true;
 			enemyshot[j].enemytype = ene.enemytype;
-			enemyshot[j].vvx = enemyshot[j].vx * 0.01;
-			enemyshot[j].vvy = enemyshot[j].vy * 0.01;
+			enemyshot[j].vvx = enemyshot[j].vx * 0.0;
+			enemyshot[j].vvy = enemyshot[j].vy * 0.0;
 			enemyshot[j].aim_time = one_second * 3;
 			enemyshot[j].enemyshottype = NORMAL;
 			break;
@@ -302,8 +318,8 @@ void missileShot(Object ene, int q)
 				enemyshot[j].y = ene.y + 50;
 				enemyshot[j].bombtime = 120;
 				enemyshot[j].aim_time = one_second * 2;
-				enemyshot[j].vvx = enemyshot[j].vx * 0.03;
-				enemyshot[j].vvy = enemyshot[j].vy * 0.03;
+				enemyshot[j].vvx = enemyshot[j].vx * 0.0;
+				enemyshot[j].vvy = enemyshot[j].vy * 0.0;
 			}
 			if (ene.place == RIGHT_UP)
 			{
@@ -311,20 +327,20 @@ void missileShot(Object ene, int q)
 				enemyshot[j].y = ene.y + 50;
 				enemyshot[j].bombtime = 120;
 				enemyshot[j].aim_time = one_second * 2;
-				enemyshot[j].vvx = enemyshot[j].vx * 0.03;
-				enemyshot[j].vvy = enemyshot[j].vy * 0.03;
+				enemyshot[j].vvx = enemyshot[j].vx * 0.0;
+				enemyshot[j].vvy = enemyshot[j].vy * 0.0;
 			}
 			if (ene.enemytype == BOSS)
 			{
 				enemyshot[j].x = ene.x + 30 + (q - 1) * 240;
 				enemyshot[j].y = ene.y + 200;
-				enemyshot[j].bombtime = 120;
+				enemyshot[j].bombtime = 90;
 				enemyshot[j].aim_time = one_second * 2;
-				enemyshot[j].vvx = enemyshot[j].vx * 0.05;
-				enemyshot[j].vvy = enemyshot[j].vy * 0.05;
+				enemyshot[j].vvx = enemyshot[j].vx * 0.005;
+				enemyshot[j].vvy = enemyshot[j].vy * 0.005;
 			}
 
-			double speed = 3.0;//速度
+			double speed = 2.0;//速度
 			double dx = pl.x - ene.x;//プレイヤーと敵のx方向の距離
 			double dy = pl.y - ene.y;//プレイヤーと敵のy方向の距離
 			double d = sqrt(dx * dx + dy * dy);//敵とプレイヤーとの距離
@@ -449,14 +465,28 @@ void updateEnemy()
 					enemy[i].cooltime = one_second * 2;//連射速度　小さいほど連射できる
 				}
 			}
+			if (enemy[i].enemytype == ENEMY4)
+			{
+				enemy[i].x += enemy[i].vx;
+				enemy[i].y += enemy[i].vy;
+				//弾を発射する
+				if (canEnemyShot(enemy[i]))
+				{
+					for (q = 0; q < 8; q++)
+					{
+						straightShot(0 + q * 45, enemy[i]);
+					}
+					enemy[i].cooltime = one_second * 2;//連射速度　小さいほど連射できる
+				}
+			}
 			if (enemy[i].enemytype == SHIP || enemy[i].enemytype == CANON1
 				|| enemy[i].enemytype == CANON2 || enemy[i].enemytype == CANON3)
 			{
-				if (time < 25 || time > 35)
+				if (time >= 10 && time < 35 || time > 55)
 				{
 					enemy[i].y += enemy[i].vy;
 				}
-				if (time >= 25 && time <= 35)
+				if (time >= 35 && time <= 55)
 				{
 					//弾を発射する
 					if (canEnemyShot(enemy[i]))
@@ -529,30 +559,57 @@ void updateEnemy()
 					{
 						missileShot(enemy[i], 1);
 						missileShot(enemy[i], 2);
-						enemy[i].boss_cooltime_M = one_second / 2;//連射速度　小さいほど連射できる
+						enemy[i].boss_cooltime_M = one_second / 3;//連射速度　小さいほど連射できる
 					}
-					if (canBossShot_S(enemy[i]))
+					enemy[i].action = GetRand(1);
+					if (enemy[i].action == 0)
 					{
-						for (q = 0; q < 3; q++)
+						if (canBossShot_S(enemy[i]))
 						{
-							straightShot(75 + q * 15, enemy[i]);
+							for (q = 0; q < 5; q++)
+							{
+								straightShot(30 + q * 30, enemy[i]);
+							}
+							enemy[i].boss_cooltime_S = one_second / 2;//連射速度　小さいほど連射できる
 						}
-						enemy[i].boss_cooltime_S = one_second / 3;//連射速度　小さいほど連射できる
+					}
+					if (enemy[i].action == 1)
+					{
+						if (canBossShot_S(enemy[i]))
+						{
+							for (q = 0; q < 6; q++)
+							{
+								straightShot(15 + q * 30, enemy[i]);
+							}
+							enemy[i].boss_cooltime_S = one_second / 2;//連射速度　小さいほど連射できる
+						}
 					}
 				}
 			}
-			if (enemy[i].x < 0 || enemy[i].x >= 800) {
-				//もし左端・右端に出たら
-				enemy[i].vx = enemy[i].vx * -1;
+			if (enemy[i].enemytype == BOSS)
+			{
+				if (enemy[i].x < 0 || enemy[i].x >= 800 - 300) {
+					//もし左端・右端に出たら
+					enemy[i].vx = enemy[i].vx * -1;
+				}
+			}
+			else {
+				if (enemy[i].x < 0 || enemy[i].x >= 800) {
+					//もし左端・右端に出たら
+					enemy[i].vx = enemy[i].vx * -1;
+				}
 			}
 
-			if (isHit(pl, enemy[i]))
+			if (gameClearFlag == false)
 			{
-				//当たっている
-				if (enemy[i].enable == true && pl.muteki_time <= 0)
+				if (isHit(pl, enemy[i]))
 				{
-					gameOverFlag++;
-					pl.muteki_time = one_second * 1; //60毎フレーム*3=180→3秒間無敵時間ができる
+					//当たっている
+					if (enemy[i].enable == true && pl.muteki_time <= 0)
+					{
+						gameOverFlag++;
+						pl.muteki_time = one_second * 1; //60毎フレーム*3=180→3秒間無敵時間ができる
+					}
 				}
 			}
 
@@ -565,7 +622,7 @@ void updateEnemy()
 						if (enemy[i].hp > 0)
 						{
 							if (enemy[i].enemytype == ENEMY1 || enemy[i].enemytype == ENEMY2
-								|| enemy[i].enemytype == ENEMY3 || enemy[i].enemytype == BOSS)
+								|| enemy[i].enemytype == ENEMY3 || enemy[i].enemytype == ENEMY4 || enemy[i].enemytype == BOSS)
 							{
 								enemy[i].hp--;
 								ps[j].live = false;
@@ -585,7 +642,7 @@ void updateEnemy()
 								{
 									score += 30;
 								}
-								if (enemy[i].enemytype == ENEMY3)
+								if (enemy[i].enemytype == ENEMY3 || enemy[i].enemytype == ENEMY4)
 								{
 									score += 20;
 								}
@@ -593,6 +650,7 @@ void updateEnemy()
 								{
 									score += 50;
 									score -= gameOverFlag * 5;
+									gameClearFlag = true;
 									PlaySoundMem(sys[1].se_clear, DX_PLAYTYPE_BACK);
 								}
 								//explosion(enemy[i]);//爆発
@@ -633,7 +691,7 @@ void drawEnemy()
 {
 	for (int i = 0; i < enemy_num; i++) {
 		if (enemy[i].enable == true) {
-			if (enemy[i].enemytype == ENEMY1 || enemy[i].enemytype == ENEMY2 || enemy[i].enemytype == ENEMY3)
+			if (enemy[i].enemytype == ENEMY1 || enemy[i].enemytype == ENEMY2 || enemy[i].enemytype == ENEMY3 || enemy[i].enemytype == ENEMY4)
 			{
 				DrawGraph(enemy[i].x, enemy[i].y, enemyimg, true);
 			}
