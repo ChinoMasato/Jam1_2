@@ -89,6 +89,8 @@ void initEnemy()
 		enemy[i].vy = 4.0;//y‚ÌˆÚ“®—Ê
 		enemy[i].enable = true;
 		enemy[i].enemytype = SHIP;
+
+		enemy[i].hp = 2;
 	}
 	for (i = 47; i < 49; i++) {
 		enemy[i].y = -6000 + 300 - 50;
@@ -105,6 +107,8 @@ void initEnemy()
 		{
 			enemy[i].place = RIGHT_UP;
 		}
+
+		enemy[i].hp = 2;
 	}
 	for (i = 49; i < 51; i++) {
 		enemy[i].y = -6000 + 300 - 50 - 50 - 50;//ã‘¤
@@ -121,6 +125,8 @@ void initEnemy()
 		{
 			enemy[i].place = RIGHT_UP;
 		}
+
+		enemy[i].hp = 2;
 	}
 	for (i = 51; i < 53; i++) {
 		enemy[i].y = -6000 + 300 - (-50 - 50);//‰º‘¤
@@ -137,6 +143,8 @@ void initEnemy()
 		{
 			enemy[i].place = RIGHT_DOWN;
 		}
+
+		enemy[i].hp = 2;
 	}
 	for (i = 53; i < 55; i++) {
 		enemy[i].y = -6000 + 300 -(50 * 4) - 70;//ã‘¤
@@ -153,6 +161,8 @@ void initEnemy()
 		{
 			enemy[i].place = RIGHT_UP;
 		}
+
+		enemy[i].hp = 2;
 	}
 	for (i = 55; i < 57; i++) {
 		enemy[i].y = -6000 + 300 + 50 * 4;//‰º‘¤
@@ -169,6 +179,8 @@ void initEnemy()
 		{
 			enemy[i].place = RIGHT_DOWN;
 		}
+
+		enemy[i].hp = 2;
 	}
 	//ƒ{ƒX
 	for (i = 57; i < 58; i++) {
@@ -551,8 +563,12 @@ void updateEnemy()
 						//“–‚½‚Á‚Ä‚¢‚é
 						if (enemy[i].hp > 0)
 						{
-							enemy[i].hp--;
-							ps[j].live = false;
+							if (enemy[i].enemytype == ENEMY1 || enemy[i].enemytype == ENEMY2
+								|| enemy[i].enemytype == ENEMY3 || enemy[i].enemytype == BOSS)
+							{
+								enemy[i].hp--;
+								ps[j].live = false;
+							}
 						}
 						if (enemy[i].hp <= 0)
 						{
