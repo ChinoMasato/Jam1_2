@@ -336,8 +336,8 @@ void missileShot(Object ene, int q)
 				enemyshot[j].y = ene.y + 200;
 				enemyshot[j].bombtime = 90;
 				enemyshot[j].aim_time = one_second * 2;
-				enemyshot[j].vvx = enemyshot[j].vx * 0.005;
-				enemyshot[j].vvy = enemyshot[j].vy * 0.005;
+				enemyshot[j].vvx = enemyshot[j].vx * 0.006;
+				enemyshot[j].vvy = enemyshot[j].vy * 0.006;
 			}
 
 			double speed = 2.0;//‘¬“x
