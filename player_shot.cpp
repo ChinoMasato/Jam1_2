@@ -51,7 +51,7 @@ void shot_type1()
 
 				for (int j = 0; j < 4; j++)
 				{
-					ps[i + j].color = GetColor(200, 200, 255);
+					ps[i + j].color = GetColor(0, 255, 0);
 
 					if (j == 0)
 					{

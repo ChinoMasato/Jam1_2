@@ -516,7 +516,7 @@ void updateEnemy()
 					{
 						missileShot(enemy[i], 1);
 						missileShot(enemy[i], 2);
-						enemy[i].boss_cooltime_M = one_second * 1;//連射速度　小さいほど連射できる
+						enemy[i].boss_cooltime_M = one_second / 2;//連射速度　小さいほど連射できる
 					}
 					if (canBossShot_S(enemy[i]))
 					{
@@ -524,7 +524,7 @@ void updateEnemy()
 						{
 							straightShot(75 + q * 15, enemy[i]);
 						}
-						enemy[i].boss_cooltime_S = one_second * 1;//連射速度　小さいほど連射できる
+						enemy[i].boss_cooltime_S = one_second / 3;//連射速度　小さいほど連射できる
 					}
 				}
 			}
@@ -560,6 +560,22 @@ void updateEnemy()
 							{
 
 								PlaySoundMem(sys[0].se_break, DX_PLAYTYPE_BACK);
+								if (enemy[i].enemytype == ENEMY1)
+								{
+									score += 10;
+								}
+								if (enemy[i].enemytype == ENEMY2)
+								{
+									score += 30;
+								}
+								if (enemy[i].enemytype == ENEMY3)
+								{
+									score += 20;
+								}
+								if (enemy[i].enemytype == BOSS)
+								{
+									score += 50;
+								}
 								//explosion(enemy[i]);//爆発
 							}
 							enemy[i].enable = false;//敵を無効

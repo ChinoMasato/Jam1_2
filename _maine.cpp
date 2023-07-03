@@ -13,6 +13,7 @@ void draw();//•`‰æˆ—
 
 extern int time;
 extern int gameOverFlag;
+extern int score;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -88,6 +89,7 @@ void update()
 
 	DrawFormatString(0, 0, GetColor(255, 255, 0), "ŠÔŒo‰ß %d •b", time);
 	DrawFormatString(0, 24, GetColor(255, 255, 0), "”í’e %d ‰ñ", gameOverFlag);
+	//DrawFormatString(400, 48, GetColor(255, 255, 0), "ƒXƒRƒA %d", score);
 }
 
 //•`‰æˆ—
