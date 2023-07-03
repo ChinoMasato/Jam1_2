@@ -54,7 +54,7 @@ void initEnemy()
 		enemy[i].vy = 2.0;//y‚ÌˆÚ“®—Ê
 		enemy[i].enable = true;
 
-		enemy[i].hp = 10;
+		enemy[i].hp = 2;
 		enemy[i].enemytype = ENEMY1;
 	}
 	for (i = 10; i < 30; i++) {
@@ -68,7 +68,7 @@ void initEnemy()
 		enemy[i].vy = speed;
 		enemy[i].enable = true;
 
-		enemy[i].hp = 4;
+		enemy[i].hp = 2;
 		enemy[i].enemytype = ENEMY2;
 	}
 	for (i = 30; i < 45; i++) {
@@ -79,7 +79,7 @@ void initEnemy()
 		enemy[i].vy = 3.0;//y‚ÌˆÚ“®—Ê
 		enemy[i].enable = true;
 
-		enemy[i].hp = 10;
+		enemy[i].hp = 2;
 		enemy[i].enemytype = ENEMY3;
 	}
 	for (i = 45; i < 47; i++) {
