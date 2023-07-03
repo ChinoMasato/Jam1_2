@@ -3,7 +3,7 @@
 #include "backscreen.h"
 #include "_system.h"
 
-SCENE scene = scene1;
+SCENE scene = scene3;
 
 void scene_1()
 {
@@ -179,7 +179,7 @@ void scene_2()
 		if (sys[1].count_scene == 2)
 		{
 			pl.vy = pl.vy * 0.995;
-			if (pl.vy <= 0.1)
+			if (pl.vy <= 0.5)
 			{
 				pl.vy = 3.0;
 				PlayMusic("Disturbance.mp3", DX_PLAYTYPE_LOOP);

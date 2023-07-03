@@ -8,7 +8,7 @@
 //#include "game.h"
 //#include "effect.h"
 
-extern bool gameOverFlag;//ゲームオーバー判定
+extern int gameOverFlag;//ゲームオーバー判定
 extern int stage;
 int i;
 double speed;
@@ -48,7 +48,7 @@ void initEnemy()
 	//敵の初期化処理
 	for (i = 0; i < 10; i++) {
 		enemy[i].x = GetRand(799);
-		enemy[i].y = 0 - i * 100;
+		enemy[i].y = -300 - i * 100;
 		enemy[i].r = 25;
 		enemy[i].vx = 0.0;//xの移動量
 		enemy[i].vy = 2.0;//yの移動量
@@ -61,7 +61,7 @@ void initEnemy()
 		speed = 3.0;
 		accel = 50.0;
 		enemy[i].rad = (i - 10) * 18;
-		enemy[i].y = -1500 - (i - 10) * 100;
+		enemy[i].y = -1800 - (i - 10) * 100;
 		enemy[i].x = 400;
 		enemy[i].r = 25;
 		enemy[i].vx = accel * cos(enemy[i].rad);//xの移動量
@@ -72,7 +72,7 @@ void initEnemy()
 		enemy[i].enemytype = ENEMY2;
 	}
 	for (i = 30; i < 45; i++) {
-		enemy[i].y = -2000 - (i - 30) * 100;
+		enemy[i].y = -2300 - (i - 30) * 100;
 		enemy[i].x = GetRand(799);
 		enemy[i].r = 25;
 		enemy[i].vx = GetRand(4);//xの移動量
@@ -172,7 +172,7 @@ void initEnemy()
 	}
 	//ボス
 	for (i = 57; i < 58; i++) {
-		enemy[i].y = -900;
+		enemy[i].y = -930;
 		enemy[i].x = 400 - 150;
 		enemy[i].r = 150;
 		enemy[i].vx = GetRand(3) + 3;//xの移動量
@@ -434,11 +434,11 @@ void updateEnemy()
 			if (enemy[i].enemytype == SHIP || enemy[i].enemytype == CANON1
 				|| enemy[i].enemytype == CANON2 || enemy[i].enemytype == CANON3)
 			{
-				if (time < 25 || time > 40)
+				if (time < 27 || time > 57)
 				{
 					enemy[i].y += enemy[i].vy;
 				}
-				if (time >= 25 && time <= 40)
+				if (time >= 27 && time <= 57)
 				{
 					//弾を発射する
 					if (canEnemyShot(enemy[i]))
@@ -532,31 +532,10 @@ void updateEnemy()
 			if (isHit(pl, enemy[i]))
 			{
 				//当たっている
-				if (pl.muteki_time <= 0)
+				if (enemy[i].enable == true && pl.muteki_time <= 0)
 				{
-					if (pl.hp > 0)
-					{
-						pl.hp--;
-						PlaySoundFile("STG_player_damege.mp3", DX_PLAYTYPE_BACK);
-
-						//デバッグ用
-						//player.hp++;
-						if (pl.hp <= 0)
-						{
-							pl.color = enemyshot[i].color;
-							if (gameOverFlag == false)
-							{
-								StopMusic();
-								PlayMusic("STG_gameover.mp3", DX_PLAYTYPE_LOOP);
-								PlaySoundFile("STG_enemy_defeat.mp3", DX_PLAYTYPE_BACK);
-								//explosion(enemy[i]);//爆発
-							}
-							gameOverFlag = true;//ゲームオーバーフラグを立てる
-						}
-						else {
-							pl.muteki_time = one_second * 3; //60毎フレーム*3=180→3秒間無敵時間ができる
-						}
-					}
+					gameOverFlag++;
+					pl.muteki_time = one_second * 1; //60毎フレーム*3=180→3秒間無敵時間ができる
 				}
 			}
 

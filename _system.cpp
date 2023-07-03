@@ -20,14 +20,14 @@ int bossimg;
 int count = 0;
 int one_second = 60;
 int time = 0;
-bool gameOverFlag;
+int gameOverFlag;
 
 SYSTEM sys[sys_];
 
 void updateGame()
 {
 	count++;
-	if (gameOverFlag == false && count % one_second == 0) //144‚Å1•bH(ŠwZ‚ÌPC‚Ìê‡)
+	if (count % one_second == 0) //144‚Å1•bH(ŠwZ‚ÌPC‚Ìê‡)
 	{
 		time++;
 	}

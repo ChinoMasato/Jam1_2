@@ -6,7 +6,7 @@
 #include <math.h>
 
 extern int start;
-extern bool gameOverFlag;
+extern int gameOverFlag;
 extern int stage;
 extern double d;
 extern double dx;
@@ -72,29 +72,10 @@ void updateEnemyShot()
 		if (isHit(pl, enemyshot[i]))
 		{
 			//“–‚½‚Á‚Ä‚¢‚é
-			if (pl.muteki_time <= 0)
+			if (enemyshot[i].enable == true && pl.muteki_time <= 0)
 			{
-				if (pl.hp > 0)
-				{
-					pl.hp--;
-					PlaySoundFile("STG_player_damege.mp3", DX_PLAYTYPE_BACK);
-
-					//ƒfƒoƒbƒO—p
-					//player.hp++;
-					if (pl.hp <= 0)
-					{
-						if (gameOverFlag == false)
-						{
-							StopMusic();
-							PlayMusic("STG_gameover.mp3", DX_PLAYTYPE_LOOP);
-							PlaySoundFile("STG_enemy_defeat.mp3", DX_PLAYTYPE_BACK);
-						}
-						gameOverFlag = true;//ƒQ[ƒ€ƒI[ƒo[ƒtƒ‰ƒO‚ð—§‚Ä‚é
-					}
-					else {
-						pl.muteki_time = one_second * 3; //3•bŠÔ–³“GŽžŠÔ‚ª‚Å‚«‚é
-					}
-				}
+				gameOverFlag++;
+				pl.muteki_time = one_second * 1; //3•bŠÔ–³“GŽžŠÔ‚ª‚Å‚«‚é
 			}
 		}
 	}
@@ -108,6 +89,7 @@ void drawEnemyShot()
 			if (enemyshot[i].enemyshottype == NORMAL)
 			{
 				//“G’e(’Êí)‚Ì‰æ‘œ
+				
 				DrawCircle(enemyshot[i].x, enemyshot[i].y, enemyshot[i].r, enemyshot[i].color, enemyshot[i].fill);
 			}
 			if (enemyshot[i].enemyshottype == BOMB_MOVE)
