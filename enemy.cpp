@@ -45,6 +45,7 @@ void initEnemy()
 	bossimg = LoadGraph("boss.png");
 
 	sys[0].se_break = LoadSoundMem("tyun.mp3");
+	sys[1].se_clear = LoadSoundMem("STG_stage_clear.mp3");
 	//“G‚Ì‰Šú‰»ˆ—
 	for (i = 0; i < 10; i++) {
 		enemy[i].x = GetRand(799);
@@ -592,6 +593,7 @@ void updateEnemy()
 								{
 									score += 50;
 									score -= gameOverFlag * 5;
+									PlaySoundMem(sys[1].se_clear, DX_PLAYTYPE_BACK);
 								}
 								//explosion(enemy[i]);//”š”­
 							}

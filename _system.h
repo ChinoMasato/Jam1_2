@@ -110,6 +110,7 @@ struct SYSTEM
 {
 	int se_shot;
 	int se_break;
+	int se_clear;
 	int count_skin;
 	int count_scene;
 };
