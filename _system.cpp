@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include <math.h>
 #include "player.h"
+#include "enemy.h"
 
 int playerimg;//プレイヤー画像
 int enemyimg;//敵画像
@@ -21,6 +22,7 @@ int count = 0;
 int one_second = 60;
 int time = 0;
 int gameOverFlag;
+int score = 0;
 
 SYSTEM sys[sys_];
 
@@ -34,6 +36,16 @@ void updateGame()
 	if (pl.muteki_time > 0)
 	{
 		pl.muteki_time--;
+	}
+	if (enemy[57].enemytype == BOSS && enemy[57].enable == false && time > 35)
+	{
+		score -= gameOverFlag * 5;
+		if (score <= 0)
+		{
+			score = 0;
+		}
+		DrawFormatString(350, 300, GetColor(255, 255, 0), "ゲームクリア！");
+		DrawFormatString(350, 348, GetColor(255, 255, 0), "スコア %d", score);
 	}
 }
 
