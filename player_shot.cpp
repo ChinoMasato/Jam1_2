@@ -12,7 +12,7 @@ void init_player_shot()
 
 	for (int i = 0; i < ps_; i++)
 	{
-		ps[i].r = 1;
+		ps[i].r = 2;
 
 		ps[i].vy = 5.0;
 
