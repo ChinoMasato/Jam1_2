@@ -3,7 +3,7 @@
 #include "backscreen.h"
 #include "_system.h"
 
-SCENE scene = scene3;
+SCENE scene = scene1;
 
 void scene_1()
 {
