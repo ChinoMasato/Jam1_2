@@ -67,4 +67,6 @@ void draw_player()
 			DrawGraph(pl.x, pl.y, pl.color, pl.live);
 		}
 	}
+
+	//DrawCircle(pl.x, pl.y, pl.r,pl.color, pl.live);
 }

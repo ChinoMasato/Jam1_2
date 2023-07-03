@@ -114,6 +114,7 @@ struct SYSTEM
 	int se_clear;
 	int count_skin;
 	int count_scene;
+	int count_shot;
 };
 
 const int sys_ = 10;

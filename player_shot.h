@@ -1,7 +1,7 @@
 #pragma once
 #include "_system.h"
 
-const int ps_ = 100;
+const int ps_ = 3000;
 extern entity ps[ps_];
 
 void init_player_shot();
