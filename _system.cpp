@@ -21,7 +21,7 @@ int bossimg;
 int count = 0;
 int one_second = 60;
 int time = 0;
-int gameOverFlag;
+int gameOverFlag = 0;
 int score = 0;
 
 SYSTEM sys[sys_];
@@ -39,7 +39,6 @@ void updateGame()
 	}
 	if (enemy[57].enemytype == BOSS && enemy[57].enable == false && time > 35)
 	{
-		score -= gameOverFlag * 5;
 		if (score <= 0)
 		{
 			score = 0;

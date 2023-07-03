@@ -89,7 +89,7 @@ void update()
 
 	DrawFormatString(0, 0, GetColor(255, 255, 0), "時間経過 %d 秒", time);
 	DrawFormatString(0, 24, GetColor(255, 255, 0), "被弾 %d 回", gameOverFlag);
-	//DrawFormatString(400, 48, GetColor(255, 255, 0), "スコア %d", score);
+	//DrawFormatString(0, 48, GetColor(255, 255, 0), "スコア %d", score);
 }
 
 //描画処理

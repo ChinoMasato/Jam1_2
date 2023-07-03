@@ -575,6 +575,7 @@ void updateEnemy()
 								if (enemy[i].enemytype == BOSS)
 								{
 									score += 50;
+									score -= gameOverFlag * 5;
 								}
 								//explosion(enemy[i]);//”š”­
 							}
