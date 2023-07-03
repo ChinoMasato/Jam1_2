@@ -434,11 +434,11 @@ void updateEnemy()
 			if (enemy[i].enemytype == SHIP || enemy[i].enemytype == CANON1
 				|| enemy[i].enemytype == CANON2 || enemy[i].enemytype == CANON3)
 			{
-				if (time < 27 || time > 57)
+				if (time < 25 || time > 35)
 				{
 					enemy[i].y += enemy[i].vy;
 				}
-				if (time >= 27 && time <= 57)
+				if (time >= 25 && time <= 35)
 				{
 					//’e‚ð”­ŽË‚·‚é
 					if (canEnemyShot(enemy[i]))
