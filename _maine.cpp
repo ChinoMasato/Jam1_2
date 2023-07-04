@@ -14,6 +14,8 @@ void draw();//•`‰æˆ—
 extern int time;
 extern int gameOverFlag;
 extern int score;
+extern int one_second;
+double beam_rate = 0;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -89,7 +91,16 @@ void update()
 
 	DrawFormatString(0, 0, GetColor(255, 255, 0), "ŠÔŒo‰ß %d •b", time);
 	DrawFormatString(0, 24, GetColor(255, 255, 0), "”í’e %d ‰ñ", gameOverFlag);
-	//DrawFormatString(0, 48, GetColor(255, 255, 0), "ƒXƒRƒA %d", score);
+	if (sys[0].count_shot < one_second * 5 && sys[3].count_shot == 0)
+	{
+		beam_rate = sys[0].count_shot / ((double)one_second * 5) * 100;
+		DrawFormatString(550, 0, GetColor(255, 255, 0), "ƒGƒlƒ‹ƒM[[“U—¦ %f%%", beam_rate);
+	}
+	if (sys[0].count_shot >= one_second * 5)
+	{
+		beam_rate = sys[0].count_shot / (one_second * 5) * 100;
+		DrawFormatString(550, 0, GetColor(255, 0, 0), "ƒGƒlƒ‹ƒM[[“U—¦ %f%%", beam_rate);
+	}
 }
 
 //•`‰æˆ—
