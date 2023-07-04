@@ -56,7 +56,7 @@ void initEnemy()
 		enemy[i].vy = 1.0;//y‚ÌˆÚ“®—Ê
 		enemy[i].enable = true;
 
-		enemy[i].hp = 4;
+		enemy[i].hp = 2;
 		enemy[i].enemytype = ENEMY1;
 	}
 	for (i = 10; i < 30; i++) {
@@ -70,7 +70,7 @@ void initEnemy()
 		enemy[i].vy = speed;
 		enemy[i].enable = true;
 
-		enemy[i].hp = 4;
+		enemy[i].hp = 2;
 		enemy[i].enemytype = ENEMY2;
 	}
 	for (i = 30; i < 40; i++) {
@@ -81,7 +81,7 @@ void initEnemy()
 		enemy[i].vy = 2.0;//y‚ÌˆÚ“®—Ê
 		enemy[i].enable = true;
 
-		enemy[i].hp = 4;
+		enemy[i].hp = 2;
 		enemy[i].enemytype = ENEMY3;
 	}
 	for (i = 40; i < 45; i++) {
@@ -92,14 +92,14 @@ void initEnemy()
 		enemy[i].vy = 1.2;//y‚ÌˆÚ“®—Ê
 		enemy[i].enable = true;
 
-		enemy[i].hp = 4;
+		enemy[i].hp = 2;
 		enemy[i].enemytype = ENEMY4;
 	}
 	for (i = 45; i < 47; i++) {
 		enemy[i].y = -6000;
 		enemy[i].x = -(221 / 2) + (i - 45) * 800;
 		enemy[i].vx = 0.0;//x‚ÌˆÚ“®—Ê
-		enemy[i].vy = 4.0;//y‚ÌˆÚ“®—Ê
+		enemy[i].vy = 3.8;//y‚ÌˆÚ“®—Ê
 		enemy[i].enable = true;
 		enemy[i].enemytype = SHIP;
 
@@ -109,7 +109,7 @@ void initEnemy()
 		enemy[i].y = -6000 + 300 - 50;
 		enemy[i].x = 221 - 181 + (i - 47) * (720 - 152);
 		enemy[i].vx = 0.0;//x‚ÌˆÚ“®—Ê
-		enemy[i].vy = 4.0;//y‚ÌˆÚ“®—Ê
+		enemy[i].vy = 3.8;//y‚ÌˆÚ“®—Ê
 		enemy[i].enable = true;
 		enemy[i].enemytype = CANON1;
 		if (i == 47)
@@ -127,7 +127,7 @@ void initEnemy()
 		enemy[i].y = -6000 + 300 - 50 - 50 - 50;//ã‘¤
 		enemy[i].x = 221 - (181 + 20) + (i - 49) * (760 - 66);
 		enemy[i].vx = 0.0;//x‚ÌˆÚ“®—Ê
-		enemy[i].vy = 4.0;//y‚ÌˆÚ“®—Ê
+		enemy[i].vy = 3.8;//y‚ÌˆÚ“®—Ê
 		enemy[i].enable = true;
 		enemy[i].enemytype = CANON2;
 		if (i == 49)
@@ -145,7 +145,7 @@ void initEnemy()
 		enemy[i].y = -6000 + 300 - (-50 - 50);//‰º‘¤
 		enemy[i].x = 221 - (181 + 20) + (i - 51) * (760 - 66);
 		enemy[i].vx = 0.0;//x‚ÌˆÚ“®—Ê
-		enemy[i].vy = 4.0;//y‚ÌˆÚ“®—Ê
+		enemy[i].vy = 3.8;//y‚ÌˆÚ“®—Ê
 		enemy[i].enable = true;
 		enemy[i].enemytype = CANON2;
 		if (i == 51)
@@ -163,7 +163,7 @@ void initEnemy()
 		enemy[i].y = -6000 + 300 -(50 * 4) - 70;//ã‘¤
 		enemy[i].x = 221 - (181 + 30) + (i - 53) * (780 - 79);
 		enemy[i].vx = 0.0;//x‚ÌˆÚ“®—Ê
-		enemy[i].vy = 4.0;//y‚ÌˆÚ“®—Ê
+		enemy[i].vy = 3.8;//y‚ÌˆÚ“®—Ê
 		enemy[i].enable = true;
 		enemy[i].enemytype = CANON3;
 		if (i == 53)
@@ -181,7 +181,7 @@ void initEnemy()
 		enemy[i].y = -6000 + 300 + 50 * 4;//‰º‘¤
 		enemy[i].x = 221 - (181 + 30) + (i - 55) * (780 - 79);
 		enemy[i].vx = 0.0;//x‚ÌˆÚ“®—Ê
-		enemy[i].vy = 4.0;//y‚ÌˆÚ“®—Ê
+		enemy[i].vy = 3.8;//y‚ÌˆÚ“®—Ê
 		enemy[i].enable = true;
 		enemy[i].enemytype = CANON3;
 		if (i == 55)
@@ -482,11 +482,11 @@ void updateEnemy()
 			if (enemy[i].enemytype == SHIP || enemy[i].enemytype == CANON1
 				|| enemy[i].enemytype == CANON2 || enemy[i].enemytype == CANON3)
 			{
-				if (time >= 10 && time < 35 || time > 55)
+				if (time >= 10 && time < 21 || time > 41)
 				{
 					enemy[i].y += enemy[i].vy;
 				}
-				if (time >= 35 && time <= 55)
+				if (time >= 21 && time <= 41)
 				{
 					//’e‚ð”­ŽË‚·‚é
 					if (canEnemyShot(enemy[i]))

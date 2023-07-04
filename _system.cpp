@@ -19,7 +19,7 @@ int canon_3_right_downimg;
 int bossimg;
 
 int count = 0;
-int one_second = 60;
+int one_second = 144;
 int time = 0;
 int gameOverFlag = 0;
 int score = 0;
